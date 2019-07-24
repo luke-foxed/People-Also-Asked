@@ -15,6 +15,7 @@ text_to_be_returned = []
 
 
 def setup(search_term):
+
     start_scraper(search_term)
 
     for j in range(len(second_round)):

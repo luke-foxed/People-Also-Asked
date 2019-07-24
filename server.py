@@ -2,7 +2,7 @@
 import os
 import scraper
 
-from flask import Flask, render_template, json
+from flask import Flask, render_template, jsonify
 app = Flask(__name__)
 
 
@@ -20,7 +20,7 @@ def test():
 def scrape(search_term):
     # javascript can't read list
     items = (scraper.setup(search_term))
-    return json.htmlsafe_dumps(items)
+    return jsonify(items)
 
 
 if __name__ == "__main__":
