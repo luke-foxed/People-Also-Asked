@@ -3,7 +3,6 @@ from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 
 chrome_options = webdriver.ChromeOptions()
-chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument("--headless")
 chrome_options.add_argument("--window-size=1366x768")
 chrome_options.add_argument("--no-sandbox")
@@ -22,6 +21,7 @@ def setup(search_term):
         search_term = second_round[j]
         start_scraper(search_term)
 
+    browser.close()
     return text_to_be_returned
 
 

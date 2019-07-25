@@ -2,19 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Favicon from 'react-favicon';
 import axios from 'axios';
-import { Header, Icon, Input, Container, Form, Button } from 'semantic-ui-react';
+import { Header, Icon, Input, Container, Segment, Button, List, Grid, Divider } from 'semantic-ui-react';
 
 class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			search: 'Search query',
 			loading: '',
 			response: []
 		};
 
 		this.fetchResults = this.fetchResults.bind(this);
-		this.startScraper = this.startScraper.bind(this);
 	}
 
 	fetchResults(arg) {
@@ -27,22 +25,24 @@ class App extends React.Component {
 		});
 	}
 
-	startScraper(seachTerm) {
-		seachTerm.preventDefault();
-		let searches = 'You searched ' + this.refs.search.value + ', please wait...';
+	onButtonClick = () => {
 		this.setState({
-			loading: searches
+			loading: this.state.value
 		});
 
-		this.fetchResults(this.refs.search.value);
-	}
-
-  handleMessage = e => { 
-    console.log('clicked')
-    console.log(e.target.value); }
+		this.fetchResults(this.state.value);
+	};
 
 	render() {
-		const responseItems = this.state.response.map((res) => <li>{res}</li>);
+		const responseItems = this.state.response.map((res) => (
+			<List.Item>
+				<List.Icon name="search" />
+				<List.Content>
+					<List.Header>{res}</List.Header>
+					<List.Description>To be added...</List.Description>
+				</List.Content>
+			</List.Item>
+		));
 
 		return (
 			<Container textAlign="center">
@@ -55,9 +55,29 @@ class App extends React.Component {
 				<br />
 				<br />
 
-        <Input action={{ color: 'blue', icon: 'search' }} ref='search' onClick={this.handleMessage} />
+				<Input
+					action={() => (
+						<Button emphasis="primary" onClick={this.onButtonClick}>
+							SEARCH
+						</Button>
+					)}
+					onChange={(evt) => this.setState({ value: evt.target.value })}
+				/>
 
-				<form onSubmit={this.startScraper}>
+				<br />
+				<br />
+
+				<Divider padded="true" horizontal>
+					&nbsp;
+				</Divider>
+
+				<Grid centered padded>
+					<Segment compact stacked>
+						<List textAlign='center'>{responseItems}</List>
+					</Segment>
+				</Grid>
+
+				{/* <form onSubmit={this.startScraper}>
 					<Favicon url="https://raw.githubusercontent.com/aerobatic/react-starter/master/app/react.ico" />
 					<label>
 						{this.state.search}
@@ -66,7 +86,7 @@ class App extends React.Component {
 					<input type="submit" value="Submit" />
 					<h1>{this.state.loading}</h1>
 					<ol>{responseItems}</ol>
-				</form>
+        </form> */}
 			</Container>
 		);
 	}
