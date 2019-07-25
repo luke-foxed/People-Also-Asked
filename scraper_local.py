@@ -5,16 +5,11 @@ import time
 from flask.json import jsonify
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.options import Options
 
-
-chrome_options = Options()
+chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument("--headless")
-chrome_options.add_argument("--window-size=1920x1080")
 
-chromedriver_path = './chromedriver'
-
-browser = webdriver.Chrome(chrome_options=chrome_options, executable_path=chromedriver_path)
+browser = webdriver.Chrome(ChromeDriverManager().install(), 0, chrome_options)
 
 second_round = []
 text_to_be_returned = {
@@ -58,7 +53,7 @@ def write_to_file():
     # extract url from second array and add to new third array
     # zip all 3 arrays to 1
 
-    text_minus_escapes = [w.replace('\\n', ' ') for w in text_to_be_returned["questions"][1]]
+    text_minus_escapes = [w.replace('\n', ' ') for w in text_to_be_returned["questions"][1]]
 
     dictionary = dict(zip(text_to_be_returned["questions"][0], text_minus_escapes))
     with open('result.json', 'w') as fp:

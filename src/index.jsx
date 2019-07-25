@@ -39,7 +39,9 @@ class App extends React.Component {
 				<List.Icon name="search" />
 				<List.Content>
 					<List.Header>{res}</List.Header>
-					<List.Description>To be added...</List.Description>
+					{/* <List.Description>
+						<br />To be added...
+					</List.Description> */}
 				</List.Content>
 			</List.Item>
 		));
@@ -47,7 +49,7 @@ class App extends React.Component {
 		return (
 			<Container textAlign="center">
 				<br />
-				<Header color="blue" as="h2" icon textAlign="center">
+				<Header color="blue" as="h2" icon>
 					<Icon inverted color="blue" name="google" circular />
 					<Header.Content>Google Scraper</Header.Content>
 				</Header>
@@ -73,7 +75,7 @@ class App extends React.Component {
 
 				<Grid centered padded>
 					<Segment compact stacked>
-						<List textAlign='center'>{responseItems}</List>
+						<List relaxed>{responseItems}</List>
 					</Segment>
 				</Grid>
 

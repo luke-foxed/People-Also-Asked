@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
 import scraper
+import sys
 
 from flask import Flask, render_template, jsonify
 app = Flask(__name__)
@@ -18,9 +19,9 @@ def test():
 
 @app.route('/scrape/<search_term>')
 def scrape(search_term):
-    # javascript can't read list
     items = (scraper.setup(search_term))
     return jsonify(items)
+
 
 
 if __name__ == "__main__":
