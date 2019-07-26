@@ -23,6 +23,5 @@ def scrape(search_term):
     return jsonify(items)
 
 
-
 if __name__ == "__main__":
-    app.run(port=2000, debug=True)
+    app.run(port=5000, debug=True)
