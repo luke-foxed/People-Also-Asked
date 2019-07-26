@@ -80,7 +80,7 @@ def format_results():
 
     dictionary = dict(
         zip(text_to_be_returned["questions"][0], zip(text_minus_escapes, urls)))
-    with open('result.json', 'w') as fp:
-        json.dump(dictionary, fp)
+    # with open('result.json', 'w') as fp:
+    #     json.dump(dictionary, fp)
 
     return dictionary
