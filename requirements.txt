@@ -1,4 +1,4 @@
 flask==1.1.1
 gunicorn==19.9.0
 selenium==3.141.0
-webdrivermanager==1.8.2
+webdriver_manager==1.8.2
