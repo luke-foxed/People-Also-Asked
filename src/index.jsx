@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Favicon from 'react-favicon';
 import axios from 'axios';
 import './style.css';
-import { Header, Icon, Input, Container, Segment, Button, List, Grid, Divider } from 'semantic-ui-react';
+import { Header, Icon, Input, Container, Segment, Button, List, Grid, Divider, Label } from 'semantic-ui-react';
 
 class App extends React.Component {
 	constructor(props) {
@@ -37,14 +37,20 @@ class App extends React.Component {
 	};
 
 	render() {
-
 		const list = Object.entries(this.state.response).map(([ key, value ]) => {
 			return (
 				<List.Item className="my_list_v1">
 					<List.Icon name="search" />
 					<List.Content>
 						<List.Header>{key}</List.Header>
-						<List.Description>{value.toString()}</List.Description>
+						<List.Description textAlign='left'>{value[0].toString()}</List.Description>
+						<br />
+						<List.Description>
+							<Label as="a" href={value[1]} target="_blank" color="blue" size="large">
+								Contine Reading &nbsp;
+								<Icon name="long arrow alternate right" />
+							</Label>
+						</List.Description>
 					</List.Content>
 				</List.Item>
 			);
@@ -63,7 +69,7 @@ class App extends React.Component {
 
 				<Input
 					action={() => (
-						<Button disabled={this.state.disabled} color='blue' animated onClick={this.onButtonClick}>
+						<Button disabled={this.state.disabled} color="blue" animated onClick={this.onButtonClick}>
 							<Button.Content visible>Search</Button.Content>
 							<Button.Content hidden>
 								<Icon name="search" />
