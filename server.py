@@ -4,7 +4,7 @@ import scraper
 import sys
 
 from flask import Flask, render_template, jsonify
-app = Flask(__name__)
+app = Flask('people_also_asked')
 
 
 @app.route("/")
