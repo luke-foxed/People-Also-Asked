@@ -15,8 +15,8 @@ chrome_options = webdriver.ChromeOptions()
 
 second_search = []
 text_to_be_returned = {
-    "first_search": [[], []],
-    "second_search": [[], []]
+    "questions":
+        [[], []]
 }
 urls = []
 
@@ -25,15 +25,12 @@ browser = webdriver.Chrome(ChromeDriverManager().install(), 0, chrome_options)
 
 def main():
 
-    search_term = 'where to buy a car'
+    search_term = 'I want McDonalds'
 
     # clean arrays before starting so same results aren't returned
 
-    text_to_be_returned["first_search"][0].clear()
-    text_to_be_returned["first_search"][1].clear()
-
-    text_to_be_returned["second_search"][0].clear()
-    text_to_be_returned["second_search"][1].clear()
+    text_to_be_returned["questions"][0].clear()
+    text_to_be_returned["questions"][1].clear()
 
     second_search.clear()
 
@@ -50,9 +47,12 @@ def main():
 
 
 def start_scraper(search_term):
+    div_counter = 1
 
     browser.get('https://www.google.com/search?q=' + search_term)
+
     time.sleep(3)
+
     questions = browser.find_elements_by_class_name('related-question-pair')
 
     for i in questions[:4]:  # only take the first 4
@@ -63,16 +63,20 @@ def start_scraper(search_term):
         i.click()
         time.sleep(1)
 
-        more = i.find_element_by_class_name('gy6Qzb').text
-
+        more = browser.find_element_by_xpath(
+            "//div[%s]/g-accordion-expander[1]/div[2]/div[1]/div[1]/div[1]" % div_counter).text
+        
         try:
-            url = re.findall(r'(https?://[^\s]+)', more)[0]
-            more = more.replace(url, '')
-        except Exception:
-            url = re.findall(r'(https?://[^\s]+)', more)
-
+            url = browser.find_element_by_xpath(
+                "//div[%s]/g-accordion-expander[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/a[1]/div[1]/cite[1]" % div_counter).text
+        except:
+            # some snippets have no url?
+            url = ''
+  
         urls.append(url)
         text_to_be_returned["questions"][1].append(more)
+
+        div_counter += 1
 
 
 def format_results():
