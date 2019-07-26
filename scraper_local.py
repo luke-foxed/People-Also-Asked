@@ -1,6 +1,7 @@
 import json
 import sys
 import time
+import re
 
 from flask.json import jsonify
 from selenium import webdriver
@@ -16,19 +17,19 @@ text_to_be_returned = {
     "questions":
         [[],[]]
 }
+urls = []
 
 
 def main():
-    search_term = 'donedeal'
+    search_term = 'how do I sell on donedeal'
     start_scraper(search_term)
 
     for j in range(len(second_round)):
         search_term = second_round[j]
         start_scraper(search_term)
 
-    write_to_file()
-    browser.close()
-
+    return_data = write_to_file()
+    return return_data
 
 def start_scraper(search_term):
     browser.get('https://www.google.com/search?q=' + search_term)
@@ -42,10 +43,12 @@ def start_scraper(search_term):
 
         i.click()
         time.sleep(1)
+
         more = i.find_element_by_class_name('gy6Qzb')
         text_to_be_returned["questions"][1].append(more.text)
-        # print(more.text)
 
+        urls.append(re.findall('(https?://[^\s]+)', more.text))
+        print(urls)
 
 def write_to_file():
     # to-do
@@ -55,10 +58,16 @@ def write_to_file():
 
     text_minus_escapes = [w.replace('\n', ' ') for w in text_to_be_returned["questions"][1]]
 
-    dictionary = dict(zip(text_to_be_returned["questions"][0], text_minus_escapes))
+#     dictionary = dict(zip(text_to_be_returned["questions"][0], text_minus_escapes))
+
+    dictionary = dict(zip(text_to_be_returned["questions"][0], zip(text_minus_escapes, urls)))
+
     with open('result.json', 'w') as fp:
         json.dump(dictionary, fp)
+  
 
+    return dictionary
+  
 
 if __name__ == '__main__':
     main()

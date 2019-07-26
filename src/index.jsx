@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Favicon from 'react-favicon';
 import axios from 'axios';
+import './style.css';
 import { Header, Icon, Input, Container, Segment, Button, List, Grid, Divider } from 'semantic-ui-react';
 
 class App extends React.Component {
@@ -9,7 +10,8 @@ class App extends React.Component {
 		super(props);
 		this.state = {
 			loading: '',
-			response: []
+			response: [],
+			disabled: false
 		};
 
 		this.fetchResults = this.fetchResults.bind(this);
@@ -20,31 +22,33 @@ class App extends React.Component {
 		axios.get('http://127.0.0.1:2000/scrape/' + arg).then((res) => {
 			console.log(res.data);
 			this.setState({
-				response: res.data
+				response: res.data,
+				disabled: false
 			});
 		});
 	}
 
 	onButtonClick = () => {
 		this.setState({
-			loading: this.state.value
+			loading: this.state.value,
+			disabled: true
 		});
-
 		this.fetchResults(this.state.value);
 	};
 
 	render() {
-		const responseItems = this.state.response.map((res) => (
-			<List.Item>
-				<List.Icon name="search" />
-				<List.Content>
-					<List.Header>{res}</List.Header>
-					{/* <List.Description>
-						<br />To be added...
-					</List.Description> */}
-				</List.Content>
-			</List.Item>
-		));
+
+		const list = Object.entries(this.state.response).map(([ key, value ]) => {
+			return (
+				<List.Item className="my_list_v1">
+					<List.Icon name="search" />
+					<List.Content>
+						<List.Header>{key}</List.Header>
+						<List.Description>{value.toString()}</List.Description>
+					</List.Content>
+				</List.Item>
+			);
+		});
 
 		return (
 			<Container textAlign="center">
@@ -59,8 +63,11 @@ class App extends React.Component {
 
 				<Input
 					action={() => (
-						<Button emphasis="primary" onClick={this.onButtonClick}>
-							SEARCH
+						<Button disabled={this.state.disabled} color='blue' animated onClick={this.onButtonClick}>
+							<Button.Content visible>Search</Button.Content>
+							<Button.Content hidden>
+								<Icon name="search" />
+							</Button.Content>
 						</Button>
 					)}
 					onChange={(evt) => this.setState({ value: evt.target.value })}
@@ -75,7 +82,7 @@ class App extends React.Component {
 
 				<Grid centered padded>
 					<Segment compact stacked>
-						<List relaxed>{responseItems}</List>
+						<List relaxed>{list}</List>
 					</Segment>
 				</Grid>
 
@@ -88,7 +95,7 @@ class App extends React.Component {
 					<input type="submit" value="Submit" />
 					<h1>{this.state.loading}</h1>
 					<ol>{responseItems}</ol>
-        </form> */}
+				</form> */}
 			</Container>
 		);
 	}
