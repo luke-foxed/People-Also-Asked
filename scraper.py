@@ -1,14 +1,27 @@
 import time
 import sys
 import json
+import os
 import re
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 
-chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument("--headless")
-chrome_options.add_argument("--window-size=1366x768")
-chrome_options.add_argument("--no-sandbox")
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+
+# chrome_options = webdriver.ChromeOptions()
+# chrome_options.add_argument("--headless")
+# chrome_options.add_argument("--window-size=1366x768")
+# chrome_options.add_argument("--no-sandbox")
+
+# browser = webdriver.Chrome(ChromeDriverManager().install(), 0, chrome_options)
+
+chrome_bin = os.environ.get('GOOGLE_CHROME_SHIM', None)
+opts = ChromeOptions()
+opts.add_argument("--headless")
+opts.add_argument("--window-size=1366x768")
+opts.add_argument("--no-sandbox")
+opts.binary_location = chrome_bin
+browser = webdriver.Chrome(executable_path="chromedriver", chrome_options=opts)
 
 second_round = []
 text_to_be_returned = {
@@ -17,7 +30,7 @@ text_to_be_returned = {
 }
 urls = []
 
-browser = webdriver.Chrome(ChromeDriverManager().install(), 0, chrome_options)
+
 
 
 def setup(search_term):
