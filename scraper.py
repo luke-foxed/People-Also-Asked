@@ -1,36 +1,23 @@
 import time
 import sys
 import json
-import os
 import re
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 
-from selenium.webdriver.chrome.options import Options as ChromeOptions
+chrome_options = webdriver.ChromeOptions()
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--window-size=1366x768")
+chrome_options.add_argument("--no-sandbox")
 
-# chrome_options = webdriver.ChromeOptions()
-# chrome_options.add_argument("--headless")
-# chrome_options.add_argument("--window-size=1366x768")
-# chrome_options.add_argument("--no-sandbox")
-
-# browser = webdriver.Chrome(ChromeDriverManager().install(), 0, chrome_options)
-
-chrome_bin = os.environ.get('GOOGLE_CHROME_SHIM', None)
-opts = ChromeOptions()
-opts.add_argument("--headless")
-opts.add_argument("--window-size=1366x768")
-opts.add_argument("--no-sandbox")
-opts.binary_location = chrome_bin
-browser = webdriver.Chrome(executable_path="chromedriver", chrome_options=opts)
+browser = webdriver.Chrome('./chromedriver.exe', 0, chrome_options)
 
 second_round = []
 text_to_be_returned = {
     "questions":
-        [[],[]]
+        [[], []]
 }
 urls = []
-
-
 
 
 def setup(search_term):
@@ -77,14 +64,14 @@ def start_scraper(search_term):
         text_to_be_returned["questions"][1].append(more)
 
 
-
 def format_results():
 
     text_minus_escapes = [w.replace('\n', ' ')
                           for w in text_to_be_returned["questions"][1]]
 
-    dictionary = dict(zip(text_to_be_returned["questions"][0], zip(text_minus_escapes, urls)))
+    dictionary = dict(
+        zip(text_to_be_returned["questions"][0], zip(text_minus_escapes, urls)))
     with open('result.json', 'w') as fp:
         json.dump(dictionary, fp)
-    
+
     return dictionary
