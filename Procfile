@@ -1,1 +1,1 @@
-web: gunicorn server:app --log-file - --log-level debug
+web: waitress-serve server:app
