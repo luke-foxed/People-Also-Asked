@@ -8,8 +8,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 chrome_options = Options()
+chrome_options.headless = True
 chrome_options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
-chrome_options.add_argument('--headless')
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--disable-gpu')
 browser = webdriver.Chrome(executable_path=os.environ.get(
@@ -29,8 +29,11 @@ text_to_be_returned = {
 }
 urls = []
 
+
 def test():
-    return 'this is a test'
+    browser.get('https://www.google.com')
+    url = browser.current_url
+    return url
 
 
 def setup(search_term):
