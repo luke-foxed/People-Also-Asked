@@ -29,6 +29,9 @@ text_to_be_returned = {
 }
 urls = []
 
+def test():
+    return 'this is a test'
+
 
 def setup(search_term):
 

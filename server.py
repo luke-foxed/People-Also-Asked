@@ -15,7 +15,8 @@ def index():
 
 @app.route("/test")
 def test():
-    return 'testing'
+    message = scraper.test()
+    return message
 
 
 @app.route('/scrape/<search_term>')
