@@ -1,1 +1,1 @@
-web: waitress-serve server:app
+web: waitress-serve --port=5000 server:app
