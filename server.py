@@ -17,10 +17,10 @@ def test():
     return 'testing'
 
 
-# @app.route('/scrape/<search_term>')
-# def scrape(search_term):
-#     items = (scraper.setup(search_term))
-#     return jsonify(items)
+@app.route('/scrape/<search_term>')
+def scrape(search_term):
+    items = (scraper.setup(search_term))
+    return jsonify(items)
 
 
 if __name__ == "__main__":
