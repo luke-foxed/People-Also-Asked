@@ -9,44 +9,73 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 chrome_options = webdriver.ChromeOptions()
 
-# chrome_options.add_argument("--headless")
-# chrome_options.add_argument("--window-size=1366x768")
-# chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--window-size=1366x768")
+chrome_options.add_argument("--no-sandbox")
 
-second_search = []
-text_to_be_returned = {
-    "questions":
-        [[], []]
+
+scraper_data = {
+    "group1": {
+        "questions": []
+    },
+    "group2": {
+        "questions": []
+    },
 }
-urls = []
+
+search_term = 'donedeal'
 
 browser = webdriver.Chrome(ChromeDriverManager().install(), 0, chrome_options)
 
 
+def construct_data(search, more, url, parent):
+
+    data_constructor = {
+        "search": search,
+        "more": more,
+        "url": url,
+        "parent": parent,
+        "children": []
+    }
+
+    return data_constructor
+
+
+def populate_first():
+    start_scraper(search_term, 1)
+
+
+def populate_latter():
+
+    for i in range(1, 2):
+        for j in range(len(scraper_data["group%s" % i]["questions"])):
+            search_term = scraper_data["group%s" % i]["questions"][j]['search']
+            start_scraper(search_term, i+1)
+
+
+# def populate_second():
+
+#     for i in range(len(scraper_data["group1"]["questions"])):
+#         search_term = scraper_data["group1"]["questions"][i]['search']
+#         start_scraper(search_term, 2)
+
+
+# def populate_third():
+
+#     for i in range(len(scraper_data["group2"]["questions"])):
+#         search_term = scraper_data["group2"]["questions"][i]['search']
+#         start_scraper(search_term, 3)
+
+
 def main():
 
-    search_term = 'I want McDonalds'
-
-    # clean arrays before starting so same results aren't returned
-
-    text_to_be_returned["questions"][0].clear()
-    text_to_be_returned["questions"][1].clear()
-
-    second_search.clear()
-
-    # populate the array for the next search results
-    start_scraper(search_term)
-
-    for j in range(len(second_search)):
-        search_term = second_search[j]
-        start_scraper(search_term)
-
-    scraped_results = format_results()
-
-    return scraped_results
+    populate_first()
+    populate_latter()
+    format_results()
 
 
-def start_scraper(search_term):
+def start_scraper(search_term, depth):
+
     div_counter = 1
 
     browser.get('https://www.google.com/search?q=' + search_term)
@@ -57,39 +86,44 @@ def start_scraper(search_term):
 
     for i in questions[:4]:  # only take the first 4
 
-        second_search.append(i.text)
-        text_to_be_returned["questions"][0].append(i.text)
-
+        question = i.text
+        parent = search_term
         i.click()
         time.sleep(1)
 
         more = browser.find_element_by_xpath(
             "//div[%s]/g-accordion-expander[1]/div[2]/div[1]/div[1]/div[1]" % div_counter).text
-        
+
+        more = more.replace('\n', ' ')
+
         try:
             url = browser.find_element_by_xpath(
                 "//div[%s]/g-accordion-expander[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/a[1]/div[1]/cite[1]" % div_counter).text
         except:
             # some snippets have no url?
             url = ''
-  
-        urls.append(url)
-        text_to_be_returned["questions"][1].append(more)
+
+        data = construct_data(question, more, url, parent)
+
+        scraper_data["group%s" % depth]["questions"].append(data)
 
         div_counter += 1
 
 
 def format_results():
 
-    text_minus_escapes = [w.replace('\n', ' ')
-                          for w in text_to_be_returned["questions"][1]]
+    for i in range(len(scraper_data['group1']['questions'])):
+        for j in range(len(scraper_data['group2']['questions'])):
+            if(scraper_data['group1']['questions'][i]['search'] == scraper_data['group2']['questions'][j]['parent']):
+                scraper_data['group1']['questions'][i]['children'].append(
+                    scraper_data['group2']['questions'][j])
 
-    dictionary = dict(
-        zip(text_to_be_returned["questions"][0], zip(text_minus_escapes, urls)))
+    del scraper_data['group2']
+
     with open('result.json', 'w') as fp:
-        json.dump(dictionary, fp)
+        json.dump(scraper_data, fp)
 
-    return dictionary
+    return scraper_data
 
 
 if __name__ == '__main__':

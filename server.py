@@ -13,18 +13,12 @@ def index():
     return render_template('index.html')
 
 
-@app.route("/test")
-def test():
-    message = scraper.test()
-    return message
-
-
 @app.route('/scrape/<search_term>')
 def scrape(search_term):
-    items = (scraper.setup(search_term))
+    items = scraper.setup(search_term)
     return jsonify(items)
 
 
 if __name__ == "__main__":
-    app.run(port=5000)
+    app.run(port=5000, debug=True)
     # waitress.serve(app, port=5000)
