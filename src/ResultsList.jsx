@@ -1,10 +1,13 @@
 import React from 'react';
-import { Icon, Segment, Button, List, Popup, Label } from 'semantic-ui-react';
+import { Icon, Segment, Button, List, Popup, Message } from 'semantic-ui-react';
 
 class ResultsList extends React.Component {
+	state = { showing: false };
+
 	render() {
 		const { questions } = this.props;
-		console.log(this.props.questions.length);
+		const { showing } = this.state;
+
 		if (questions.length > 0) {
 			return (
 				<div>
@@ -14,54 +17,64 @@ class ResultsList extends React.Component {
 								<List.Content>
 									<List.Header as="h3">{question.search}</List.Header>
 									<List.Description>{question.more}</List.Description>
+
 									<br />
-									<List.Description>
-										<Button.Group size="medium">
-											<Popup
-												content="INSERT ARTICLE TITLE"
-												trigger={
-													<Button
-														content="Continue Reading"
-														as="a"
-														href={question.url}
-														target="_blank"
-													/>
-												}
-											/>
-											<Button.Or />
-											<Button color="blue">See Related</Button>
-										</Button.Group>
-									</List.Description>
+									<Button.Group size="medium">
+										<Popup
+											inverted
+	
+											wide="very"
+											content={question.article_header}
+											trigger={
+												<Button
+													content="Continue Reading"
+													as="a"
+													href={question.article_url}
+													target="_blank"
+												/>
+											}
+										/>
+										<Button.Or />
+										<Button onClick={() => this.setState({ showing: !showing })} color="blue">
+											See Related
+										</Button>
+									</Button.Group>
 								</List.Content>
 								<List.List>
+									<br />
+									<br />
+
 									<Segment padded>
 										{question.children.map((child, index) => {
 											return (
-												<List.Item>
-													<List.Content>
-														<List.Header as='h4'>{child.search}</List.Header>
-                            <List.Description>{child.more}
-                            
-                            </List.Description>
-														<br />
-											
-															<Button
-                              size='small'
-															as="a"
-															href={child.url}
-                              target="_blank"
-															basic color="blue"
-															>
-																Contine Reading &nbsp;
-																<Icon name="long arrow alternate right" />
-															</Button>
+												<div
+													className={'child' + index}
+													style={{ display: showing ? 'block' : 'none' }}
+												>
+													<List.Item>
+														<List.Content>
+															<List.Header as="h4">{child.search}</List.Header>
+															<List.Description>{child.more}</List.Description>
+															<br />
 
-													
-													</List.Content>
-                          <br />
-                        <br />
-												</List.Item>
-                    
+															<Popup
+                              inverted
+																wide="very"
+																content={child.article_header}
+																trigger={
+																	<Button
+																		content="Continue Reading"
+																		as="a"
+																		href={child.article_url}
+																		target="_blank"
+																	/>
+																}
+															/>
+														</List.Content>
+														<br />
+														<br />
+													</List.Item>
+												</div>
 											);
 										})}
 									</Segment>
@@ -73,7 +86,12 @@ class ResultsList extends React.Component {
 			);
 		}
 
-		return <div>No Results</div>;
+		return (
+			<Message negative>
+				<Message.Header>No results found!</Message.Header>
+				<p>Try another search term</p>
+			</Message>
+		);
 	}
 }
 

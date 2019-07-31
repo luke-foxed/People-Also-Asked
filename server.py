@@ -2,7 +2,7 @@
 import os
 import scraper
 import sys
-import waitress
+# import waitress
 
 from flask import Flask, render_template, jsonify
 app = Flask(__name__)

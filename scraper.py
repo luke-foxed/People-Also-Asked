@@ -35,17 +35,16 @@ scraper_data = {
     },
 }
 
-search_term = 'donedeal'
-
 browser = webdriver.Chrome(ChromeDriverManager().install(), 0, chrome_options)
 
 
-def construct_data(search, more, url, parent):
+def construct_data(search, more, url, header, parent):
 
     data_constructor = {
         "search": search,
         "more": more,
-        "url": url,
+        "article_url": url,
+        "article_header": header,
         "parent": parent,
         "children": []
     }
@@ -65,21 +64,11 @@ def populate_latter(search_term):
             start_scraper(search_term, i+1)
 
 
-# def populate_second():
-
-#     for i in range(len(scraper_data["group1"]["questions"])):
-#         search_term = scraper_data["group1"]["questions"][i]['search']
-#         start_scraper(search_term, 2)
-
-
-# def populate_third():
-
-#     for i in range(len(scraper_data["group2"]["questions"])):
-#         search_term = scraper_data["group2"]["questions"][i]['search']
-#         start_scraper(search_term, 3)
-
-
 def setup(search_term):
+
+    # reset data strucure
+    scraper_data['group1']['questions'].clear()
+    scraper_data['group2']['questions'].clear()
 
     populate_first(search_term)
     populate_latter(search_term)
@@ -110,14 +99,20 @@ def start_scraper(search_term, depth):
 
         more = more.replace('\n', ' ')
 
+        article = browser.find_element_by_xpath(
+            "//div[%s]/g-accordion-expander[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/a[1]/h3[1]" % div_counter)
+
+        article_header = article.text
+        article_url = article.find_element_by_xpath('..').get_attribute('href')
+
         try:
-            url = browser.find_element_by_xpath(
-                "//div[%s]/g-accordion-expander[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/a[1]/div[1]/cite[1]" % div_counter).text
+            article_url = article.find_element_by_xpath(
+                '..').get_attribute('href')
         except:
             # some snippets have no url?
-            url = ''
+            article_url = ''
 
-        data = construct_data(question, more, url, parent)
+        data = construct_data(question, more, article_url, article_header, parent)
 
         scraper_data["group%s" % depth]["questions"].append(data)
 
@@ -132,7 +127,7 @@ def format_results():
                 scraper_data['group1']['questions'][i]['children'].append(
                     scraper_data['group2']['questions'][j])
 
-    del scraper_data['group2']
+    # del scraper_data['group2']
 
     with open('result.json', 'w') as fp:
         json.dump(scraper_data, fp)

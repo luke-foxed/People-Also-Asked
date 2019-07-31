@@ -3,3 +3,8 @@
     margin: 0 auto;
     margin-top: 20px;
 }
+
+.loading_segment {
+    height: 400px;
+    border: 0px !important;
+}
