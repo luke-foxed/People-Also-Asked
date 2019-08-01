@@ -3,3 +3,4 @@ gunicorn==19.9.0
 selenium==3.141.0
 webdriver_manager==1.8.2
 waitress
+cowpy==1.0.3
