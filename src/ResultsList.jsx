@@ -15,18 +15,21 @@ class ResultsList extends React.Component {
 						return (
 							<List.Item className="my_list_v1">
 								<List.Content>
-									<List.Header as="h3">{question.search}</List.Header>
-									<List.Description>{question.more}</List.Description>
+									<List.Header className="uppercase_header" as="h3">
+										{question.search}
+									</List.Header>
+
+									<List.Description className="list_description">{question.more}</List.Description>
 
 									<br />
 									<Button.Group size="medium">
 										<Popup
 											inverted
-	
 											wide="very"
 											content={question.article_header}
 											trigger={
 												<Button
+													icon="external"
 													content="Continue Reading"
 													as="a"
 													href={question.article_url}
@@ -36,6 +39,7 @@ class ResultsList extends React.Component {
 										/>
 										<Button.Or />
 										<Button onClick={() => this.setState({ showing: !showing })} color="blue">
+											<Icon name="dropdown" />
 											See Related
 										</Button>
 									</Button.Group>
@@ -44,21 +48,22 @@ class ResultsList extends React.Component {
 									<br />
 									<br />
 
-									<Segment padded>
+									<Segment padded style={{ display: showing ? 'block' : 'none' }}>
 										{question.children.map((child, index) => {
 											return (
-												<div
-													className={'child' + index}
-													style={{ display: showing ? 'block' : 'none' }}
-												>
+												<div>
 													<List.Item>
 														<List.Content>
-															<List.Header as="h4">{child.search}</List.Header>
-															<List.Description>{child.more}</List.Description>
+															<List.Header className="uppercase_header" as="h4">
+																{child.search}
+															</List.Header>
+															<List.Description className="list_description">
+																{child.more}
+															</List.Description>
 															<br />
 
 															<Popup
-                              inverted
+																inverted
 																wide="very"
 																content={child.article_header}
 																trigger={
