@@ -20,7 +20,7 @@ class ResultsList extends React.Component {
 									</List.Header>
 
 									<List.Description className="list_description">{question.more}</List.Description>
-
+									<br />
 									<br />
 									<Button.Group size="medium">
 										<Popup
@@ -46,43 +46,39 @@ class ResultsList extends React.Component {
 								</List.Content>
 								<List.List>
 									<br />
-									<br />
 
-									<Segment padded style={{ display: showing ? 'block' : 'none' }}>
-										{question.children.map((child, index) => {
-											return (
-												<div>
-													<List.Item>
-														<List.Content>
-															<List.Header className="uppercase_header" as="h4">
-																{child.search}
-															</List.Header>
-															<List.Description className="list_description">
-																{child.more}
-															</List.Description>
-															<br />
+									{question.children.map((child, index) => {
+										return (
+											<Segment padded style={{ display: showing ? 'block' : 'none' }}>
+												<List.Item>
+													<List.Content>
+														<List.Header className="uppercase_header" as="h4">
+															{child.search}
+														</List.Header>
+														<List.Description className="list_description">
+															{child.more}
+														</List.Description>
+														<br />
 
-															<Popup
-																inverted
-																wide="very"
-																content={child.article_header}
-																trigger={
-																	<Button
-																		content="Continue Reading"
-																		as="a"
-																		href={child.article_url}
-																		target="_blank"
-																	/>
-																}
-															/>
-														</List.Content>
-														<br />
-														<br />
-													</List.Item>
-												</div>
-											);
-										})}
-									</Segment>
+														<Popup
+															inverted
+															wide="very"
+															content={child.article_header}
+															trigger={
+																<Button
+																	icon="external"
+																	content="Continue Reading"
+																	as="a"
+																	href={child.article_url}
+																	target="_blank"
+																/>
+															}
+														/>
+													</List.Content>
+												</List.Item>
+											</Segment>
+										);
+									})}
 								</List.List>
 							</List.Item>
 						);
