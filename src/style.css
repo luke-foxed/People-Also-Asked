@@ -3,3 +3,22 @@
     margin: 0 auto;
     margin-top: 20px;
 }
+
+.loading_segment {
+    height: 150px;
+    border: 0px !important;
+}
+
+.uppercase_header {
+    text-transform:uppercase;
+    font-variant:small-caps;    
+    margin: 0 auto;
+    text-align: left !important;
+    padding-top: 10px;
+    
+}
+
+.list_description {
+    padding-top: 12px;
+    text-align: left !important;
+}
