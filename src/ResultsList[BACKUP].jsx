@@ -10,34 +10,11 @@ import {
 } from "semantic-ui-react";
 
 class ResultsList extends React.Component {
-  constructor(props) {
-    super(props);
-    const questionState = [];
-    for (let i = 0; i < props.questions.length; i++) {
-      questionState.push({ isActive: false });
-    }
-
-    this.state = {
-      Questions: questionState
-    };
-
-    console.log(this.state.Questions);
-  }
-
-  changeActive(index) {
-    var questionsArray = this.state.Questions;
-
-    if (questionsArray[index].isActive == false) {
-      questionsArray[index].isActive = true;
-    } else {
-      questionsArray[index].isActive = false;
-    }
-
-    this.setState({ Questions: questionsArray });
-  }
+  state = { showing: false };
 
   render() {
     const { questions } = this.props;
+    const { showing } = this.state;
 
     if (questions.length > 0) {
       return (
@@ -72,7 +49,7 @@ class ResultsList extends React.Component {
                     />
                     <Button.Or />
                     <Button
-                      onClick={() => this.changeActive(index)}
+                      onClick={() => this.setState({ showing: !showing })}
                       color='blue'
                     >
                       <Icon name='dropdown' />
@@ -83,15 +60,11 @@ class ResultsList extends React.Component {
                 <List.List>
                   <br />
 
-                  {question.children.map((child, childIndex) => {
+                  {question.children.map((child, index) => {
                     return (
                       <Segment
                         padded
-                        style={{
-                          display: this.state.Questions[index].isActive
-                            ? "block"
-                            : "none"
-                        }}
+                        style={{ display: showing ? "block" : "none" }}
                       >
                         <List.Item>
                           <List.Content>
