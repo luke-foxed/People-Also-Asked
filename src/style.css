@@ -1,3 +1,22 @@
+.header_container {
+  background-color: rgb(37, 124, 200);
+  width: 100% !important;
+}
+
+.header_image {
+  margin: 0 auto;
+  padding: 20px;
+  transform: scale(0.8);
+}
+
+.footer {
+  margin-top: 40px !important;
+  margin-left: -10px !important;
+  text-align: center;
+  padding: 15px !important;
+  width: 105% !important;
+}
+
 .my_list_v1 {
   width: 75%;
   margin: 0 auto;
@@ -20,15 +39,4 @@
 .list_description {
   padding-top: 12px;
   text-align: left !important;
-}
-
-.header_image {
-  margin: 0 auto;
-  padding: 20px;
-  transform: scale(0.8);
-}
-
-.header_container {
-  background-color: rgb(37, 124, 200);
-  width: 100% !important;
 }
