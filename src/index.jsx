@@ -233,8 +233,6 @@ import {
   Container,
   Segment,
   Button,
-  List,
-  Grid,
   Divider,
   Label,
   Dimmer,
@@ -278,6 +276,7 @@ class App extends React.Component {
         loaderEnabled: false
       });
     });
+
   }
 
   onButtonClick = () => {

@@ -6,7 +6,6 @@ import {
   List,
   Popup,
   Message,
-  Label,
   Container
 } from "semantic-ui-react";
 
@@ -84,6 +83,7 @@ class ResultsList extends React.Component {
                     </Button.Group>
                   </List.Content>
                   <List.List>
+                    {this.state.Questions.length > 0}
                     {question.children.map((child, childIndex) => {
                       return (
                         <Segment
@@ -132,19 +132,19 @@ class ResultsList extends React.Component {
           </List>
         </div>
       );
+    } else {
+      return (
+        <Container textAlign='center'>
+          <Message
+            size='large'
+            negative
+            icon='exclamation circle'
+            header='No results found!'
+            content='Try another search term'
+          />
+        </Container>
+      );
     }
-
-    return (
-      <Container textAlign='center'>
-        <Message
-          size='large'
-          negative
-          icon='exclamation circle'
-          header='No results found!'
-          content='Try another search term'
-        />
-      </Container>
-    );
   }
 }
 

@@ -6,10 +6,13 @@ import re
 from flask.json import jsonify
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.common.by import By
 
 chrome_options = webdriver.ChromeOptions()
 
-chrome_options.add_argument("--headless")
+# chrome_options.add_argument("--headless")
 chrome_options.add_argument("--window-size=1366x768")
 chrome_options.add_argument("--no-sandbox")
 
@@ -67,7 +70,8 @@ def start_scraper(search_term, depth):
 
     browser.get('https://www.google.com/search?q=' + search_term)
 
-    time.sleep(3)
+    WebDriverWait(browser, 10).until(ec.visibility_of_element_located(
+        (By.CLASS_NAME, "related-question-pair")))
 
     questions = browser.find_elements_by_class_name('related-question-pair')
 
@@ -76,7 +80,7 @@ def start_scraper(search_term, depth):
         question = i.text
         parent = search_term
         i.click()
-        time.sleep(1)
+        time.sleep(0.5)
 
         more = browser.find_element_by_xpath(
             "//div[%s]/g-accordion-expander[1]/div[2]/div[1]/div[1]/div[1]" % div_counter).text
@@ -96,7 +100,8 @@ def start_scraper(search_term, depth):
             # some snippets have no url?
             article_url = ''
 
-        data = construct_data(question, more, article_url, article_header, parent)
+        data = construct_data(question, more, article_url,
+                              article_header, parent)
 
         scraper_data["group%s" % depth]["questions"].append(data)
 

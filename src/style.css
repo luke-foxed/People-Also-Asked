@@ -10,11 +10,12 @@
 }
 
 .footer {
-  margin-top: 40px !important;
-  margin-left: -10px !important;
+  margin-top: 40px;
+  margin-left: -10px;
   text-align: center;
-  padding: 15px !important;
+  padding: 15px;
   width: 105% !important;
+  z-index: 1;
 }
 
 .my_list_v1 {
