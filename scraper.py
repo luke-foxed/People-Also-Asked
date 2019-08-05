@@ -4,8 +4,11 @@ import json
 import re
 import os
 from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.common.by import By
 
 """FOR RUNNING ON HEROKU"""
 
@@ -83,7 +86,8 @@ def start_scraper(search_term, depth):
 
     browser.get('https://www.google.com/search?q=' + search_term)
 
-    time.sleep(3)
+    WebDriverWait(browser, 10).until(ec.visibility_of_element_located(
+        (By.CLASS_NAME, "related-question-pair")))
 
     questions = browser.find_elements_by_class_name('related-question-pair')
 
@@ -92,7 +96,7 @@ def start_scraper(search_term, depth):
         question = i.text
         parent = search_term
         i.click()
-        time.sleep(1)
+        time.sleep(0.5)
 
         more = browser.find_element_by_xpath(
             "//div[%s]/g-accordion-expander[1]/div[2]/div[1]/div[1]/div[1]" % div_counter).text
