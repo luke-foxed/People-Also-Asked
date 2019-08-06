@@ -94,42 +94,32 @@ def start_scraper(search_term, depth):
 
     questions = browser.find_elements_by_class_name('related-question-pair')
 
-    try:
+  
 
-        for i in questions[:4]:  # only take the first 4
+    for i in questions[:4]:  # only take the first 4
 
-            question = i.text
-            parent = search_term
-            i.click()
-            time.sleep(0.5)
+        question = i.text
+        parent = search_term
+        i.click()
+        time.sleep(0.5)
+        more = browser.find_element_by_xpath(
+            "//div[%s]/g-accordion-expander[1]/div[2]/div[1]/div[1]/div[1]" % div_counter).text
+        more = more.replace('\n', ' ')
+        article = browser.find_element_by_xpath(
+            "//div[%s]/g-accordion-expander[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/a[1]/h3[1]" % div_counter)
+        article_header = article.text
+        article_url = article.find_element_by_xpath('..').get_attribute('href')
+        try:
+            article_url = article.find_element_by_xpath(
+                '..').get_attribute('href')
+        except:
+            # some snippets have no url?
+            article_url = ''
+        data = construct_data(question, more, article_url,
+                            article_header, parent)
+        scraper_data["group%s" % depth]["questions"].append(data)
+        div_counter += 1
 
-            more = browser.find_element_by_xpath(
-                "//div[%s]/g-accordion-expander[1]/div[2]/div[1]/div[1]/div[1]" % div_counter).text
-
-            more = more.replace('\n', ' ')
-
-            article = browser.find_element_by_xpath(
-                "//div[%s]/g-accordion-expander[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/a[1]/h3[1]" % div_counter)
-
-            article_header = article.text
-            article_url = article.find_element_by_xpath('..').get_attribute('href')
-
-            try:
-                article_url = article.find_element_by_xpath(
-                    '..').get_attribute('href')
-            except:
-                # some snippets have no url?
-                article_url = ''
-
-            data = construct_data(question, more, article_url,
-                                article_header, parent)
-
-            scraper_data["group%s" % depth]["questions"].append(data)
-
-            div_counter += 1
-
-    except NoSuchElementException as err:
-        return err
 
 
 def format_results():
