@@ -5,7 +5,7 @@ import re
 import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-# from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
@@ -29,7 +29,6 @@ browser = webdriver.Chrome(executable_path=os.environ.get(
 # browser = webdriver.Chrome(
 #     ChromeDriverManager().install(), chrome_options=chrome_options)
 
-
 scraper_data = {
     "group1": {
         "questions": []
@@ -38,6 +37,8 @@ scraper_data = {
         "questions": []
     },
 }
+
+browser = webdriver.Chrome(ChromeDriverManager().install(), 0, chrome_options)
 
 
 def construct_data(search, more, url, header, parent):
@@ -85,8 +86,11 @@ def start_scraper(search_term, depth):
 
     browser.get('https://www.google.com/search?q=' + search_term)
 
-    WebDriverWait(browser, 10).until(ec.visibility_of_element_located(
-        (By.CLASS_NAME, "related-question-pair")))
+    try:
+        WebDriverWait(browser, 10).until(ec.visibility_of_element_located(
+            (By.CLASS_NAME, "related-question-pair")))
+    except:
+        pass
 
     questions = browser.find_elements_by_class_name('related-question-pair')
 
@@ -96,30 +100,22 @@ def start_scraper(search_term, depth):
         parent = search_term
         i.click()
         time.sleep(0.5)
-
         more = browser.find_element_by_xpath(
             "//div[%s]/g-accordion-expander[1]/div[2]/div[1]/div[1]/div[1]" % div_counter).text
-
         more = more.replace('\n', ' ')
-
         article = browser.find_element_by_xpath(
             "//div[%s]/g-accordion-expander[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/a[1]/h3[1]" % div_counter)
-
         article_header = article.text
         article_url = article.find_element_by_xpath('..').get_attribute('href')
-
         try:
             article_url = article.find_element_by_xpath(
                 '..').get_attribute('href')
         except:
             # some snippets have no url?
             article_url = ''
-
         data = construct_data(question, more, article_url,
                               article_header, parent)
-
         scraper_data["group%s" % depth]["questions"].append(data)
-
         div_counter += 1
 
 
