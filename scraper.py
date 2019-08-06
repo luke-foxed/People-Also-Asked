@@ -94,8 +94,6 @@ def start_scraper(search_term, depth):
 
     questions = browser.find_elements_by_class_name('related-question-pair')
 
-  
-
     for i in questions[:4]:  # only take the first 4
 
         question = i.text
@@ -116,10 +114,9 @@ def start_scraper(search_term, depth):
             # some snippets have no url?
             article_url = ''
         data = construct_data(question, more, article_url,
-                            article_header, parent)
+                              article_header, parent)
         scraper_data["group%s" % depth]["questions"].append(data)
         div_counter += 1
-
 
 
 def format_results():
