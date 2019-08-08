@@ -237,7 +237,8 @@ import {
   Label,
   Dimmer,
   Loader,
-  Image
+  Image,
+  Grid
 } from "semantic-ui-react";
 
 import ResultsList from "./ResultsList.jsx";
@@ -259,7 +260,7 @@ class App extends React.Component {
   fetchResults(arg) {
     console.log(`fetching ${arg}...`);
 
-    // MOCK DATA
+    // // MOCK DATA
     // this.setState({
     //   response: mock,
     //   buttonDisabled: false,
@@ -276,7 +277,6 @@ class App extends React.Component {
         loaderEnabled: false
       });
     });
-
   }
 
   onButtonClick = () => {
@@ -294,29 +294,29 @@ class App extends React.Component {
     if (this.state.responseLoaded) {
       return (
         <div>
-          <Container textAlign='center' className='header_container'>
+          <Container textAlign="center" className="header_container">
             <br />
             <Image
-              className='header_image'
-              src='https://i.ibb.co/q1fNRDs/logo-invertedv4.png'
-              size='large'
+              className="header_image"
+              src="https://i.ibb.co/q1fNRDs/logo-invertedv4.png"
+              size="large"
             />
           </Container>
           <br />
           <br />
-          <Container textAlign='center'>
+          <Container textAlign="center">
             <Input
-              size='large'
+              size="large"
               action={() => (
                 <Button
                   disabled={this.state.buttonDisabled}
-                  color='blue'
+                  color="blue"
                   animated
                   onClick={this.onButtonClick}
                 >
                   <Button.Content visible>Search</Button.Content>
                   <Button.Content hidden>
-                    <Icon name='search' />
+                    <Icon name="search" />
                   </Button.Content>
                 </Button>
               )}
@@ -327,13 +327,13 @@ class App extends React.Component {
             <br />
 
             <Divider horizontal>
-              <Icon name='question circle outline' />
+              <Icon name="question circle outline" />
               &nbsp; People Also Asked
             </Divider>
 
-            <Header textAlign='left'>
-              <Icon name='search' />
-              <Header.Content className='uppercase_header'>
+            <Header textAlign="left">
+              <Icon name="search" />
+              <Header.Content className="uppercase_header">
                 You Searched: '{this.state.searchTerm}'
               </Header.Content>
             </Header>
@@ -347,53 +347,72 @@ class App extends React.Component {
           </Container>
 
           <br />
-          <Label
-            className='footer'
-            color='blue'
-            size='large'
-            content='SEO Scraper - Created by Luke Fox'
-          />
+          <Container className="footer">
+            <Grid columns={1}>
+              <Grid.Column verticalAlign="middle">
+                <Icon
+                  className="footer_icon"
+                  name="code branch"
+                  inverted
+                  size="large"
+                />
+                <Icon
+                  className="footer_icon"
+                  name="github"
+                  inverted
+                  size="large"
+                />
+
+                <Icon
+                  className="footer_icon"
+                  name="globe"
+                  inverted
+                  size="large"
+                />
+              </Grid.Column>
+            </Grid>
+          </Container>
         </div>
       );
     } else {
       return (
         <div>
-          <Container textAlign='center' className='header_container'>
+          <Container textAlign="center" className="header_container">
             <br />
             <Image
-              className='header_image'
-              src='https://i.ibb.co/q1fNRDs/logo-invertedv4.png'
-              size='large'
+              className="header_image"
+              src="https://i.ibb.co/q1fNRDs/logo-invertedv4.png"
+              size="large"
             />
           </Container>
           <br />
           <br />
-          <Container textAlign='center'>
+          <Container textAlign="center">
             <Input
-              size='large'
+              size="large"
               action={() => (
                 <Button
                   disabled={this.state.buttonDisabled}
-                  color='blue'
+                  color="blue"
                   animated
                   onClick={this.onButtonClick}
                 >
                   <Button.Content visible>Search</Button.Content>
                   <Button.Content hidden>
-                    <Icon name='search' />
+                    <Icon name="search" />
                   </Button.Content>
                 </Button>
               )}
               onChange={evt => this.setState({ value: evt.target.value })}
             />
 
-            <Segment className='loading_segment'>
+            <Segment className="loading_segment">
               <Dimmer active={this.state.loaderEnabled} inverted>
                 <Loader indeterminate>Scraping Searches...</Loader>
               </Dimmer>
             </Segment>
 
-            <Label attached='bottom right' color='blue' size='small'>
+            <Label attached="bottom right" color="blue" size="small">
               For Educational Purposes Only
             </Label>
           </Container>
