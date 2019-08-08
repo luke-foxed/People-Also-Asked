@@ -5,7 +5,7 @@ import re
 import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
+# from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
@@ -37,8 +37,6 @@ scraper_data = {
         "questions": []
     },
 }
-
-browser = webdriver.Chrome(ChromeDriverManager().install(), 0, chrome_options)
 
 
 def construct_data(search, more, url, header, parent):
