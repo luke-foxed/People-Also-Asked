@@ -267,7 +267,7 @@ class App extends React.Component {
     //   loaderEnabled: false
     // });
 
-    axios.get("/scrape/" + arg).then(res => {
+    return axios.get("/scrape/" + arg).then(res => {
       console.log(res.data);
       this.setState({
         response: res.data,
