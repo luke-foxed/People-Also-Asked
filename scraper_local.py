@@ -70,8 +70,11 @@ def start_scraper(search_term, depth):
 
     browser.get('https://www.google.com/search?q=' + search_term)
 
-    WebDriverWait(browser, 10).until(ec.visibility_of_element_located(
-        (By.CLASS_NAME, "related-question-pair")))
+    try:
+        WebDriverWait(browser, 10).until(ec.visibility_of_element_located(
+            (By.CLASS_NAME, "related-question-pair")))
+    except:
+        pass
 
     questions = browser.find_elements_by_class_name('related-question-pair')
 
@@ -87,17 +90,15 @@ def start_scraper(search_term, depth):
 
         more = more.replace('\n', ' ')
 
-        article = browser.find_element_by_xpath(
-            "//div[%s]/g-accordion-expander[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/a[1]/h3[1]" % div_counter)
-
-        article_header = article.text
-        article_url = article.find_element_by_xpath('..').get_attribute('href')
-
         try:
+            article = browser.find_element_by_xpath(
+                "//div[%s]/g-accordion-expander[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/a[1]/h3[1]" % div_counter)
+
+            article_header = article.text
             article_url = article.find_element_by_xpath(
                 '..').get_attribute('href')
         except:
-            # some snippets have no url?
+            article_header = 'No Artical Found!'
             article_url = ''
 
         data = construct_data(question, more, article_url,

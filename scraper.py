@@ -5,29 +5,29 @@ import re
 import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-# from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
 
 """FOR RUNNING ON HEROKU"""
 
-chrome_options = Options()
-chrome_options.headless = True
-chrome_options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
-chrome_options.add_argument('--no-sandbox')
-chrome_options.add_argument('--disable-gpu')
-browser = webdriver.Chrome(executable_path=os.environ.get(
-    'CHROMEDRIVER'), chrome_options=chrome_options)
+# chrome_options = Options()
+# chrome_options.headless = True
+# chrome_options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+# chrome_options.add_argument('--no-sandbox')
+# chrome_options.add_argument('--disable-gpu')
+# browser = webdriver.Chrome(executable_path=os.environ.get(
+#     'CHROMEDRIVER'), chrome_options=chrome_options)
 
 """FOR RUNNING LOCALLY"""
 
-# chrome_options = webdriver.ChromeOptions()
-# chrome_options.add_argument("--headless")
-# chrome_options.add_argument("--window-size=1366x768")
-# chrome_options.add_argument("--no-sandbox")
-# browser = webdriver.Chrome(
-#     ChromeDriverManager().install(), chrome_options=chrome_options)
+chrome_options = webdriver.ChromeOptions()
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--window-size=1366x768")
+chrome_options.add_argument("--no-sandbox")
+browser = webdriver.Chrome(
+    ChromeDriverManager().install(), chrome_options=chrome_options)
 
 scraper_data = {
     "group1": {
@@ -37,6 +37,8 @@ scraper_data = {
         "questions": []
     },
 }
+
+browser = webdriver.Chrome(ChromeDriverManager().install(), 0, chrome_options)
 
 
 def construct_data(search, more, url, header, parent):
@@ -98,22 +100,28 @@ def start_scraper(search_term, depth):
         parent = search_term
         i.click()
         time.sleep(0.5)
+
         more = browser.find_element_by_xpath(
             "//div[%s]/g-accordion-expander[1]/div[2]/div[1]/div[1]/div[1]" % div_counter).text
+
         more = more.replace('\n', ' ')
-        article = browser.find_element_by_xpath(
-            "//div[%s]/g-accordion-expander[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/a[1]/h3[1]" % div_counter)
-        article_header = article.text
-        article_url = article.find_element_by_xpath('..').get_attribute('href')
+
         try:
+            article = browser.find_element_by_xpath(
+                "//div[%s]/g-accordion-expander[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/a[1]/h3[1]" % div_counter)
+
+            article_header = article.text
             article_url = article.find_element_by_xpath(
                 '..').get_attribute('href')
         except:
-            # some snippets have no url?
+            article_header = 'No Artical Found!'
             article_url = ''
+
         data = construct_data(question, more, article_url,
                               article_header, parent)
+
         scraper_data["group%s" % depth]["questions"].append(data)
+
         div_counter += 1
 
 
