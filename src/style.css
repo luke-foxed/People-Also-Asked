@@ -3,6 +3,12 @@
   width: 100% !important;
 }
 
+@media only screen and (max-width: 600px) {
+  .header_container {
+    transform: scale(1.1);
+  }
+}
+
 .header_image {
   margin: 0 auto;
   padding: 20px;
