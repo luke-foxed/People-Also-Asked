@@ -260,7 +260,7 @@ class App extends React.Component {
   fetchResults(arg) {
     console.log(`fetching ${arg}...`);
     let cache = JSON.parse(localStorage.getItem('appState'));
-    if (cache.searchTerm === arg) {
+    if (cache && cache.searchTerm === arg) {
       console.log('FOUND CACHE');
       this.setState({
         response: cache.response,
