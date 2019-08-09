@@ -259,15 +259,17 @@ class App extends React.Component {
 
   fetchResults(arg) {
     console.log(`fetching ${arg}...`);
-    let cache = JSON.parse(localStorage.getItem('appState'));
-    if (cache && cache.searchTerm === arg) {
-      console.log('FOUND CACHE');
-      this.setState({
-        response: cache.response,
-        buttonDisabled: false,
-        responseLoaded: true,
-        loaderEnabled: false
-      });
+    if (localStorage.length > 0) {
+      let cache = JSON.parse(localStorage.getItem('appState'));
+      if (cache.searchTerm === arg) {
+        console.log('FOUND CACHE');
+        this.setState({
+          response: cache.response,
+          buttonDisabled: false,
+          responseLoaded: true,
+          loaderEnabled: false
+        });
+      }
     } else {
       // // MOCK DATA
       // this.setState({
