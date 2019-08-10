@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Icon,
   Segment,
@@ -7,7 +7,7 @@ import {
   Popup,
   Message,
   Container
-} from 'semantic-ui-react';
+} from "semantic-ui-react";
 
 class ResultsList extends React.Component {
   constructor(props) {
@@ -21,8 +21,6 @@ class ResultsList extends React.Component {
     this.state = {
       Questions: questionState
     };
-
-    console.log(this.state.Questions);
   }
 
   changeActive(index) {
@@ -46,40 +44,40 @@ class ResultsList extends React.Component {
           <List>
             {questions.map((question, index) => {
               return (
-                <List.Item className="my_list_v1">
+                <List.Item className='results_list'>
                   <List.Content>
-                    <List.Header className="uppercase_header" as="h3">
+                    <List.Header className='uppercase_header' as='h3'>
                       {question.search}
                     </List.Header>
 
-                    <List.Description className="list_description">
+                    <List.Description className='list_description'>
                       {question.more}
                     </List.Description>
 
                     <br />
                     <br />
-                    
-                    <Button.Group size="medium">
+
+                    <Button.Group size='medium'>
                       <Popup
                         inverted
-                        wide="very"
+                        wide='very'
                         content={question.article_header}
                         trigger={
                           <Button
-                            icon="external"
-                            content="Continue Reading"
-                            as="a"
+                            icon='external'
+                            content='Continue Reading'
+                            as='a'
                             href={question.article_url}
-                            target="_blank"
+                            target='_blank'
                           />
                         }
                       />
                       <Button.Or />
                       <Button
                         onClick={() => this.changeActive(index)}
-                        color="blue"
+                        color='blue'
                       >
-                        <Icon name="dropdown" />
+                        <Icon name='dropdown' />
                         See Related
                       </Button>
                     </Button.Group>
@@ -93,31 +91,31 @@ class ResultsList extends React.Component {
                           padded
                           style={{
                             display: this.state.Questions[index].isActive
-                              ? 'block'
-                              : 'none'
+                              ? "block"
+                              : "none"
                           }}
                         >
                           <List.Item>
                             <List.Content>
-                              <List.Header className="uppercase_header" as="h4">
+                              <List.Header className='uppercase_header' as='h4'>
                                 {child.search}
                               </List.Header>
-                              <List.Description className="list_description">
+                              <List.Description className='list_description'>
                                 {child.more}
                               </List.Description>
                               <br />
 
                               <Popup
                                 inverted
-                                wide="very"
+                                wide='very'
                                 content={child.article_header}
                                 trigger={
                                   <Button
-                                    icon="external"
-                                    content="Continue Reading"
-                                    as="a"
+                                    icon='external'
+                                    content='Continue Reading'
+                                    as='a'
                                     href={child.article_url}
-                                    target="_blank"
+                                    target='_blank'
                                   />
                                 }
                               />
@@ -137,13 +135,13 @@ class ResultsList extends React.Component {
       );
     } else {
       return (
-        <Container textAlign="center">
+        <Container textAlign='center'>
           <Message
-            size="large"
+            size='massive'
             negative
-            icon="exclamation circle"
-            header="No results found!"
-            content="Try another search term"
+            icon='exclamation circle'
+            header='No results found!'
+            content='Try another search term'
           />
         </Container>
       );

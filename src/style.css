@@ -3,7 +3,7 @@
   width: 100% !important;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 700px) {
   .header_container {
     transform: scale(1.1);
   }
@@ -16,8 +16,6 @@
 }
 
 .footer {
-  margin-top: 40px;
-  margin-left: -10px;
   text-align: center;
   padding: 15px;
   width: 105% !important;
@@ -38,12 +36,6 @@
   cursor: pointer;
 }
 
-.my_list_v1 {
-  width: 75%;
-  margin: 0 auto;
-  margin-top: 20px;
-}
-
 .loading_segment {
   height: 150px;
   border: 0px !important;
@@ -55,6 +47,12 @@
   margin: 0 auto;
   text-align: left !important;
   padding-top: 10px;
+}
+
+.results_list {
+  width: 75%;
+  margin: 0 auto;
+  margin-top: 20px;
 }
 
 .list_description {
