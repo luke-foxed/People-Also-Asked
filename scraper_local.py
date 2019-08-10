@@ -26,7 +26,7 @@ scraper_data = {
     },
 }
 
-search_term = 'where to sell a car online'
+search_term = 'ford focus 2018'
 
 browser = webdriver.Chrome(ChromeDriverManager().install(), 0, chrome_options)
 

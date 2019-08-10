@@ -58,7 +58,7 @@ class ResultsList extends React.Component {
 
                     <br />
                     <br />
-
+                    
                     <Button.Group size="medium">
                       <Popup
                         inverted
