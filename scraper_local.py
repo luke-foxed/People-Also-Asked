@@ -70,8 +70,11 @@ def start_scraper(search_term, depth):
 
     browser.get('https://www.google.com/search?q=' + search_term)
 
-    WebDriverWait(browser, 10).until(ec.visibility_of_element_located(
-        (By.CLASS_NAME, "related-question-pair")))
+    try:
+        WebDriverWait(browser, 10).until(ec.visibility_of_element_located(
+            (By.CLASS_NAME, "related-question-pair")))
+    except:
+        pass
 
     questions = browser.find_elements_by_class_name('related-question-pair')
 

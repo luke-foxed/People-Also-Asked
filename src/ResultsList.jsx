@@ -55,8 +55,10 @@ class ResultsList extends React.Component {
                     <List.Description className="list_description">
                       {question.more}
                     </List.Description>
+
                     <br />
                     <br />
+                    
                     <Button.Group size="medium">
                       <Popup
                         inverted
@@ -82,6 +84,7 @@ class ResultsList extends React.Component {
                       </Button>
                     </Button.Group>
                   </List.Content>
+
                   <List.List>
                     {this.state.Questions.length > 0}
                     {question.children.map((child, childIndex) => {

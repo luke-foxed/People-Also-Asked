@@ -2,6 +2,8 @@
 import os
 import scraper
 import sys
+from selenium.common.exceptions import NoSuchElementException
+
 # import waitress
 
 from flask import Flask, render_template, jsonify
@@ -15,11 +17,15 @@ def index():
 
 @app.route('/scrape/<search_term>')
 def scrape(search_term):
-    items = scraper.setup(search_term)
-    return jsonify(items)
+    try:
+        items = scraper.setup(search_term)
+        return jsonify(items)
+
+    except NoSuchElementException as err:
+        return err
 
 
 if __name__ == "__main__":
-    app.run(port=5000, debug=True)
+    app.run(port=5000)
     # app.run(host='0.0.0.0', port=5000, debug=True)
     # waitress.serve(app, port=5000)

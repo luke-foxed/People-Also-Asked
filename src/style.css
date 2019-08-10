@@ -3,6 +3,12 @@
   width: 100% !important;
 }
 
+@media only screen and (max-width: 600px) {
+  .header_container {
+    transform: scale(1.1);
+  }
+}
+
 .header_image {
   margin: 0 auto;
   padding: 20px;
@@ -22,13 +28,14 @@
 .footer_icon {
   padding-right: 20px !important;
   padding-left: 20px !important;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out !important;
 }
 
 .footer_icon:hover {
   padding-right: 20px !important;
   padding-left: 20px !important;
-  transform: scale(1.3);
+  transform: scale(1.2);
+  cursor: pointer;
 }
 
 .my_list_v1 {
