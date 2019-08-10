@@ -87,7 +87,7 @@ class App extends React.Component {
           </Container>
           <br />
           <br />
-          <Container textAlign='center' style={{ "min-height": "560px" }}>
+          <Container textAlign='center' style={{ minHeight: "560px" }}>
             <Input
               size='large'
               action={() => (
