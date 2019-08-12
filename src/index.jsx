@@ -75,111 +75,76 @@ class App extends React.Component {
   render() {
     const { response } = this.state;
 
-    if (this.state.responseLoaded) {
-      return (
-        <div>
-          <Container textAlign="center" className="header_container">
-            <br />
-            <Image
-              className="header_image"
-              src="https://i.ibb.co/q1fNRDs/logo-invertedv4.png"
-              size="large"
-            />
-          </Container>
+    return (
+      <div>
+        <Container textAlign="center" className="header_container">
           <br />
-          <br />
-          <Container textAlign="center" style={{ minHeight: '560px' }}>
-            <Input
-              size="large"
-              action={() => (
-                <Button
-                  disabled={this.state.buttonDisabled}
-                  color="blue"
-                  animated
-                  onClick={this.onButtonClick}
-                >
-                  <Button.Content visible>Search</Button.Content>
-                  <Button.Content hidden>
-                    <Icon name="search" />
-                  </Button.Content>
-                </Button>
-              )}
-              onChange={evt => this.setState({ value: evt.target.value })}
-            />
+          <Image
+            className="header_image"
+            src="https://i.ibb.co/q1fNRDs/logo-invertedv4.png"
+            size="large"
+          />
+        </Container>
+        <br />
+        <br />
+        <Container textAlign="center">
+          <Input
+            size="large"
+            action={() => (
+              <Button
+                disabled={this.state.buttonDisabled}
+                color="blue"
+                animated
+                onClick={this.onButtonClick}
+              >
+                <Button.Content visible>Search</Button.Content>
+                <Button.Content hidden>
+                  <Icon name="search" />
+                </Button.Content>
+              </Button>
+            )}
+            onChange={evt => this.setState({ value: evt.target.value })}
+          />
 
-            <br />
-            <br />
-
-            <Divider horizontal>
-              <Icon name="question circle outline" />
-              &nbsp; People Also Asked
-            </Divider>
-
-            <Header textAlign="left">
-              <Icon name="search" />
-              <Header.Content className="uppercase_header">
-                You Searched: '{this.state.searchTerm}'
-              </Header.Content>
-            </Header>
-            <Segment compact stacked>
-              <Dimmer active={this.state.loaderEnabled} inverted>
-                <Loader indeterminate>Scraping Searches...</Loader>
-              </Dimmer>
-
-              <ResultsList questions={response.group1.questions} />
-            </Segment>
-          </Container>
-
-          <br />
-
-          <Footer />
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <Container textAlign="center" className="header_container">
-            <br />
-            <Image
-              className="header_image"
-              src="https://i.ibb.co/q1fNRDs/logo-invertedv4.png"
-              size="large"
-            />
-          </Container>
-          <br />
-          <br />
-          <Container textAlign="center">
-            <Input
-              size="large"
-              action={() => (
-                <Button
-                  disabled={this.state.buttonDisabled}
-                  color="blue"
-                  animated
-                  onClick={this.onButtonClick}
-                >
-                  <Button.Content visible>Search</Button.Content>
-                  <Button.Content hidden>
-                    <Icon name="search" />
-                  </Button.Content>
-                </Button>
-              )}
-              onChange={evt => this.setState({ value: evt.target.value })}
-            />
-
+          {!this.state.responseLoaded && (
             <Segment className="loading_segment">
               <Dimmer active={this.state.loaderEnabled} inverted>
                 <Loader indeterminate>Scraping Searches...</Loader>
               </Dimmer>
             </Segment>
+          )}
+        </Container>
 
-            <Label attached="bottom right" color="blue" size="small">
-              For Educational Purposes Only
-            </Label>
-          </Container>
-        </div>
-      );
-    }
+        {this.state.responseLoaded && (
+          <div>
+            <Container textAlign="center" style={{ minHeight: '560px' }}>
+              <Divider horizontal>
+                <Icon name="question circle outline" />
+                &nbsp; People Also Asked
+              </Divider>
+
+              <Header textAlign="left">
+                <Icon name="search" />
+                <Header.Content className="uppercase_header">
+                  You Searched: '{this.state.searchTerm}'
+                </Header.Content>
+              </Header>
+              <Segment compact stacked>
+                <Dimmer active={this.state.loaderEnabled} inverted>
+                  <Loader indeterminate>Scraping Searches...</Loader>
+                </Dimmer>
+
+                <ResultsList questions={response.group1.questions} />
+              </Segment>
+            </Container>
+
+            <br />
+
+            <Footer />
+          </div>
+        )}
+      </div>
+    );
   }
 }
 
