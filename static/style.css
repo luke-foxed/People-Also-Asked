@@ -4,6 +4,11 @@
   height: 400px !important;
 }
 
+.header_image {
+  margin-top: 50px;
+  transform: scale(0.8);
+}
+
 @media only screen and (max-width: 700px) {
   .header_container {
     transform: scale(1.1);
@@ -16,9 +21,8 @@
   }
 }
 
-.header_image {
-  margin-top: 50px;
-  transform: scale(0.8);
+.modal_action {
+  margin: auto 0 !important;
 }
 
 .footer {
@@ -70,4 +74,8 @@ br {
   display: block;
   content: '';
   margin-top: 75px;
+}
+
+p {
+  font-size: 17px;
 }

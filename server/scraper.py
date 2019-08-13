@@ -133,7 +133,7 @@ def format_results():
 
     scraper_data['group2']['questions'].clear()
 
-    with open('result.json', 'w') as fp:
-        json.dump(scraper_data, fp)
+    # with open('result.json', 'w') as fp:
+    #     json.dump(scraper_data, fp)
 
     return scraper_data
