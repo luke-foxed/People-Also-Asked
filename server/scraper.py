@@ -97,7 +97,7 @@ def start_scraper(search_term, depth):
         question = i.text
         parent = search_term
         i.click()
-        time.sleep(0.5)
+        time.sleep(0.2)
 
         more = browser.find_element_by_xpath(
             "//div[%s]/g-accordion-expander[1]/div[2]/div[1]/div[1]/div[1]" % div_counter).text
