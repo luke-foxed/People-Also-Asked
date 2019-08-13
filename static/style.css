@@ -1,3 +1,7 @@
+body {
+  background-image: url('../src/images/background.png');
+}
+
 .header_container {
   background-color: rgb(33, 133, 208);
   width: 100% !important;
@@ -44,11 +48,6 @@
   padding-left: 20px !important;
   transform: scale(1.2);
   cursor: pointer;
-}
-
-.loading_segment {
-  height: 150px;
-  border: 0px !important;
 }
 
 .uppercase_header {

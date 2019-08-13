@@ -79,7 +79,7 @@ class App extends React.Component {
         <Container textAlign='center' className='header_container'>
           <Image
             className='header_image'
-            src='https://i.ibb.co/q1fNRDs/logo-invertedv4.png'
+            src={require('./images/logo.png')}
             size='large'
             href='/'
             verticalAlign='middle'
@@ -110,11 +110,11 @@ class App extends React.Component {
 
           {!this.state.responseLoaded && (
             <div>
-              <Segment className='loading_segment'>
+              <Container>
                 <Dimmer active={this.state.loaderEnabled} inverted>
                   <Loader indeterminate>Scraping Searches...</Loader>
                 </Dimmer>
-              </Segment>
+              </Container>
 
               <Label attached='bottom right' color='blue' size='small'>
                 For Educational Purposes Only
