@@ -136,7 +136,7 @@ class App extends React.Component {
               <Header textAlign="left">
                 <Icon name="search" />
                 <Header.Content className="uppercase_header">
-                  You Searched: '{this.state.searchTerm}'
+                  You Searched: "{this.state.searchTerm}"
                 </Header.Content>
               </Header>
               <Segment compact stacked>

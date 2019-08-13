@@ -2,7 +2,7 @@ export class CacheHelper {
   // Give each cache item unique ID
   generateCacheID() {
     return (
-      "_" +
+      '_' +
       Math.random()
         .toString(36)
         .substr(2, 6)
@@ -15,7 +15,7 @@ export class CacheHelper {
     if (state.response.group1.questions.length > 0) {
       this.removeOldCache();
       localStorage.setItem(ID, JSON.stringify(state));
-      console.log("Cache written!");
+      console.log('Cache written!');
       this.getLocalStorageSize();
     }
   }
@@ -59,13 +59,13 @@ export class CacheHelper {
     }
 
     let total = (_lsTotal / 1024).toFixed(2);
-    console.log(`Total = ${total}KB / 5000KB`);
+    console.log(`LocalStorage = ${total}KB / 5000KB`);
   }
 
   // If cache length has exited limit, remove oldest entry
   removeOldCache() {
     if (localStorage.length === 200) {
-      console.log("Removing earliest cache entry...");
+      console.log('Removing earliest cache entry...');
       let lastCacheItem = localStorage.key(0);
       localStorage.removeItem(lastCacheItem);
     }
