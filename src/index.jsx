@@ -1,9 +1,10 @@
-import React from "react";
-import { CacheHelper } from "./cacheHelper";
-import ResultsList from "./ResultsList.jsx";
-import ReactDOM from "react-dom";
-import axios from "axios";
-import "./style.css";
+import React from 'react';
+import { CacheHelper } from '../static/cacheHelper';
+import ResultsList from './components/ResultsList.jsx';
+import Footer from './components/Footer.jsx';
+import ReactDOM from 'react-dom';
+import axios from 'axios';
+import '../static/style.css';
 import {
   Header,
   Icon,
@@ -12,12 +13,11 @@ import {
   Segment,
   Button,
   Divider,
-  Label,
   Dimmer,
   Loader,
   Image,
-  Grid
-} from "semantic-ui-react";
+  Label
+} from 'semantic-ui-react';
 
 let cacheHelper = new CacheHelper();
 
@@ -25,7 +25,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchTerm: "",
+      searchTerm: '',
       response: [],
       responseLoaded: false,
       buttonDisabled: false,
@@ -41,7 +41,7 @@ class App extends React.Component {
     let cache = cacheHelper.checkCacheForSearchTerm(searchTerm);
 
     if (cache !== undefined) {
-      console.log("Found cache...");
+      console.log('Found cache...');
       this.setState({
         response: cache.response,
         buttonDisabled: false,
@@ -49,7 +49,7 @@ class App extends React.Component {
         loaderEnabled: false
       });
     } else {
-      return axios.get("/scrape/" + searchTerm).then(res => {
+      return axios.get('/scrape/' + searchTerm).then(res => {
         console.log(res.data);
         this.setState({
           response: res.data,
@@ -74,149 +74,88 @@ class App extends React.Component {
   render() {
     const { response } = this.state;
 
-    if (this.state.responseLoaded) {
-      return (
-        <div>
-          <Container textAlign='center' className='header_container'>
-            <br />
-            <Image
-              className='header_image'
-              src='https://i.ibb.co/q1fNRDs/logo-invertedv4.png'
-              size='large'
-            />
-          </Container>
-          <br />
-          <br />
-          <Container textAlign='center' style={{ minHeight: "560px" }}>
-            <Input
-              size='large'
-              action={() => (
-                <Button
-                  disabled={this.state.buttonDisabled}
-                  color='blue'
-                  animated
-                  onClick={this.onButtonClick}
-                >
-                  <Button.Content visible>Search</Button.Content>
-                  <Button.Content hidden>
-                    <Icon name='search' />
-                  </Button.Content>
-                </Button>
-              )}
-              onChange={evt => this.setState({ value: evt.target.value })}
-            />
+    return (
+      <div>
+        <Container textAlign="center" className="header_container">
+          <Image
+            className="header_image"
+            src="https://i.ibb.co/q1fNRDs/logo-invertedv4.png"
+            size="large"
+            href="/"
+            verticalAlign="middle"
+          />
+        </Container>
+
+        <br />
+
+        <Container textAlign="center">
+          <Input
+            style={{ width: '300px' }}
+            size="large"
+            action={() => (
+              <Button
+                disabled={this.state.buttonDisabled}
+                color="blue"
+                animated
+                onClick={this.onButtonClick}
+              >
+                <Button.Content visible>Search</Button.Content>
+                <Button.Content hidden>
+                  <Icon name="search" />
+                </Button.Content>
+              </Button>
+            )}
+            onChange={evt => this.setState({ value: evt.target.value })}
+          />
+
+          {!this.state.responseLoaded && (
+            <div>
+              <Segment className="loading_segment">
+                <Dimmer active={this.state.loaderEnabled} inverted>
+                  <Loader indeterminate>Scraping Searches...</Loader>
+                </Dimmer>
+              </Segment>
+
+              <Label attached="bottom right" color="blue" size="small">
+                For Educational Purposes Only
+              </Label>
+            </div>
+          )}
+        </Container>
+
+        <br />
+
+        {this.state.responseLoaded && (
+          <div>
+            <Container textAlign="center" style={{ minHeight: '560px' }}>
+              <Divider horizontal>
+                <Icon name="question circle outline" />
+                &nbsp; People Also Asked
+              </Divider>
+
+              <Header textAlign="left">
+                <Icon name="search" />
+                <Header.Content className="uppercase_header">
+                  You Searched: '{this.state.searchTerm}'
+                </Header.Content>
+              </Header>
+              <Segment compact stacked>
+                <Dimmer active={this.state.loaderEnabled} inverted>
+                  <Loader indeterminate>Scraping Searches...</Loader>
+                </Dimmer>
+
+                <ResultsList questions={response.group1.questions} />
+              </Segment>
+            </Container>
 
             <br />
-            <br />
 
-            <Divider horizontal>
-              <Icon name='question circle outline' />
-              &nbsp; People Also Asked
-            </Divider>
-
-            <Header textAlign='left'>
-              <Icon name='search' />
-              <Header.Content className='uppercase_header'>
-                You Searched: '{this.state.searchTerm}'
-              </Header.Content>
-            </Header>
-            <Segment compact stacked>
-              <Dimmer active={this.state.loaderEnabled} inverted>
-                <Loader indeterminate>Scraping Searches...</Loader>
-              </Dimmer>
-
-              <ResultsList questions={response.group1.questions} />
-            </Segment>
-          </Container>
-
-          <br />
-
-          <Container className='footer'>
-            <Grid columns={1}>
-              <Grid.Column verticalAlign='middle'>
-                <Icon
-                  className='footer_icon'
-                  name='code branch'
-                  size='large'
-                  inverted
-                  onClick={() => {
-                    window.open(
-                      "https://github.com/Foxyf76/People-also-asked",
-                      "_blank"
-                    );
-                  }}
-                />
-
-                <Icon
-                  className='footer_icon'
-                  name='github'
-                  size='large'
-                  inverted
-                  onClick={() => {
-                    window.open("https://github.com/Foxyf76/", "_blank");
-                  }}
-                />
-
-                <Icon
-                  className='footer_icon'
-                  name='globe'
-                  size='large'
-                  inverted
-                  onClick={() => {
-                    window.open("http://distilledsch.ie/", "_blank");
-                  }}
-                />
-              </Grid.Column>
-            </Grid>
-          </Container>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <Container textAlign='center' className='header_container'>
-            <br />
-            <Image
-              className='header_image'
-              src='https://i.ibb.co/q1fNRDs/logo-invertedv4.png'
-              size='large'
-            />
-          </Container>
-          <br />
-          <br />
-          <Container textAlign='center'>
-            <Input
-              size='large'
-              action={() => (
-                <Button
-                  disabled={this.state.buttonDisabled}
-                  color='blue'
-                  animated
-                  onClick={this.onButtonClick}
-                >
-                  <Button.Content visible>Search</Button.Content>
-                  <Button.Content hidden>
-                    <Icon name='search' />
-                  </Button.Content>
-                </Button>
-              )}
-              onChange={evt => this.setState({ value: evt.target.value })}
-            />
-
-            <Segment className='loading_segment'>
-              <Dimmer active={this.state.loaderEnabled} inverted>
-                <Loader indeterminate>Scraping Searches...</Loader>
-              </Dimmer>
-            </Segment>
-
-            <Label attached='bottom right' color='blue' size='small'>
-              For Educational Purposes Only
-            </Label>
-          </Container>
-        </div>
-      );
-    }
+            <Footer />
+          </div>
+        )}
+      </div>
+    );
   }
 }
 
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render(<App />, document.getElementById('app'));
