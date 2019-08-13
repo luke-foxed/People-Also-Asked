@@ -1,17 +1,23 @@
 .header_container {
   background-color: rgb(33, 133, 208);
   width: 100% !important;
+  height: 400px !important;
 }
 
 @media only screen and (max-width: 700px) {
   .header_container {
     transform: scale(1.1);
   }
+  .header_container {
+    height: 30% !important;
+  }
+  .footer {
+    transform: scale(1.15);
+  }
 }
 
 .header_image {
-  margin: 0 auto;
-  padding: 20px;
+  margin-top: 50px;
   transform: scale(0.8);
 }
 
@@ -58,4 +64,10 @@
 .list_description {
   padding-top: 12px;
   text-align: left !important;
+}
+
+br {
+  display: block;
+  content: '';
+  margin-top: 75px;
 }

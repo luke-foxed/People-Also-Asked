@@ -1,5 +1,5 @@
 import React from 'react';
-import './style.css';
+import '../../static/style.css';
 import { Icon, Container, Grid } from 'semantic-ui-react';
 
 class Footer extends React.Component {

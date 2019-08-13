@@ -1,10 +1,10 @@
 import React from 'react';
-import { CacheHelper } from './cacheHelper';
-import ResultsList from './ResultsList.jsx';
-import Footer from './Footer.jsx';
+import { CacheHelper } from '../static/cacheHelper';
+import ResultsList from './components/ResultsList.jsx';
+import Footer from './components/Footer.jsx';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import './style.css';
+import '../static/style.css';
 import {
   Header,
   Icon,
@@ -13,11 +13,10 @@ import {
   Segment,
   Button,
   Divider,
-  Label,
   Dimmer,
   Loader,
   Image,
-  Grid
+  Label
 } from 'semantic-ui-react';
 
 let cacheHelper = new CacheHelper();
@@ -78,17 +77,20 @@ class App extends React.Component {
     return (
       <div>
         <Container textAlign="center" className="header_container">
-          <br />
           <Image
             className="header_image"
             src="https://i.ibb.co/q1fNRDs/logo-invertedv4.png"
             size="large"
+            href="/"
+            verticalAlign="middle"
           />
         </Container>
+
         <br />
-        <br />
+
         <Container textAlign="center">
           <Input
+            style={{ width: '300px' }}
             size="large"
             action={() => (
               <Button
@@ -107,13 +109,21 @@ class App extends React.Component {
           />
 
           {!this.state.responseLoaded && (
-            <Segment className="loading_segment">
-              <Dimmer active={this.state.loaderEnabled} inverted>
-                <Loader indeterminate>Scraping Searches...</Loader>
-              </Dimmer>
-            </Segment>
+            <div>
+              <Segment className="loading_segment">
+                <Dimmer active={this.state.loaderEnabled} inverted>
+                  <Loader indeterminate>Scraping Searches...</Loader>
+                </Dimmer>
+              </Segment>
+
+              <Label attached="bottom right" color="blue" size="small">
+                For Educational Purposes Only
+              </Label>
+            </div>
           )}
         </Container>
+
+        <br />
 
         {this.state.responseLoaded && (
           <div>
