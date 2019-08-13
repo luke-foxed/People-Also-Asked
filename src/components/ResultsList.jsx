@@ -20,12 +20,12 @@ class ResultsList extends React.Component {
     }
 
     this.state = {
-      Questions: questionState
+      questions: questionState
     };
   }
 
   changeActive(index) {
-    var questionsArray = this.state.Questions;
+    var questionsArray = this.state.questions;
 
     if (questionsArray[index].isActive == false) {
       questionsArray[index].isActive = true;
@@ -33,7 +33,7 @@ class ResultsList extends React.Component {
       questionsArray[index].isActive = false;
     }
 
-    this.setState({ Questions: questionsArray });
+    this.setState({ questions: questionsArray });
   }
 
   render() {
@@ -45,76 +45,75 @@ class ResultsList extends React.Component {
           <List>
             {questions.map((question, index) => {
               return (
-                <List.Item className="results_list">
+                <List.Item className='results_list'>
                   <List.Content>
-                    <List.Header className="uppercase_header" as="h3">
+                    <List.Header className='uppercase_header' as='h3'>
                       {question.search}
                     </List.Header>
 
-                    <List.Description className="list_description">
+                    <List.Description className='list_description'>
                       {question.more}
                     </List.Description>
 
-                    <Button.Group size="medium" style={{ marginTop: '25px' }}>
+                    <Button.Group size='medium' style={{ marginTop: '25px' }}>
                       <Popup
                         inverted
-                        wide="very"
+                        wide='very'
                         content={question.article_header}
                         trigger={
                           <Button
-                            icon="external"
-                            content="Continue Reading"
-                            as="a"
+                            icon='external'
+                            content='Continue Reading'
+                            as='a'
                             href={question.article_url}
-                            target="_blank"
+                            target='_blank'
                           />
                         }
                       />
                       <Button.Or />
                       <Button
                         onClick={() => this.changeActive(index)}
-                        color="blue"
+                        color='blue'
                       >
-                        <Icon name="dropdown" />
+                        <Icon name='chevron down' />
                         See Related
                       </Button>
                     </Button.Group>
                   </List.Content>
 
                   <List.List>
-                    {this.state.Questions.length > 0}
+                    {this.state.questions.length > 0}
                     {question.children.map((child, childIndex) => {
                       return (
                         <Segment
                           padded
                           style={{
-                            display: this.state.Questions[index].isActive
+                            display: this.state.questions[index].isActive
                               ? 'block'
                               : 'none'
                           }}
                         >
                           <List.Item>
                             <List.Content>
-                              <List.Header className="uppercase_header" as="h4">
+                              <List.Header className='uppercase_header' as='h4'>
                                 {child.search}
                               </List.Header>
-                              <List.Description className="list_description">
+                              <List.Description className='list_description'>
                                 {child.more}
                               </List.Description>
 
-                              <br />
-
                               <Popup
                                 inverted
-                                wide="very"
+                                wide='very'
                                 content={child.article_header}
                                 trigger={
                                   <Button
-                                    icon="external"
-                                    content="Continue Reading"
-                                    as="a"
+                                    style={{ marginTop: '25px' }}
+                                    icon='external'
+                                    content='Continue Reading'
+                                    as='a'
                                     href={child.article_url}
-                                    target="_blank"
+                                    target='_blank'
                                   />
                                 }
                               />
@@ -133,15 +132,15 @@ class ResultsList extends React.Component {
       );
     } else {
       return (
-        <Container textAlign="center">
+        <Container textAlign='center'>
           <br />
 
           <Message
-            size="massive"
+            size='massive'
             negative
-            icon="exclamation circle"
-            header="No results found!"
-            content="Try another search term"
+            icon='exclamation circle'
+            header='No results found!'
+            content='Try another search term'
           />
           <br />
         </Container>

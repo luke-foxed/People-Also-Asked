@@ -76,32 +76,32 @@ class App extends React.Component {
 
     return (
       <div>
-        <Container textAlign="center" className="header_container">
+        <Container textAlign='center' className='header_container'>
           <Image
-            className="header_image"
-            src="https://i.ibb.co/q1fNRDs/logo-invertedv4.png"
-            size="large"
-            href="/"
-            verticalAlign="middle"
+            className='header_image'
+            src='https://i.ibb.co/q1fNRDs/logo-invertedv4.png'
+            size='large'
+            href='/'
+            verticalAlign='middle'
           />
         </Container>
 
         <br />
 
-        <Container textAlign="center">
+        <Container textAlign='center'>
           <Input
             style={{ width: '300px' }}
-            size="large"
+            size='large'
             action={() => (
               <Button
                 disabled={this.state.buttonDisabled}
-                color="blue"
+                color='blue'
                 animated
                 onClick={this.onButtonClick}
               >
                 <Button.Content visible>Search</Button.Content>
                 <Button.Content hidden>
-                  <Icon name="search" />
+                  <Icon name='search' />
                 </Button.Content>
               </Button>
             )}
@@ -110,13 +110,13 @@ class App extends React.Component {
 
           {!this.state.responseLoaded && (
             <div>
-              <Segment className="loading_segment">
+              <Segment className='loading_segment'>
                 <Dimmer active={this.state.loaderEnabled} inverted>
                   <Loader indeterminate>Scraping Searches...</Loader>
                 </Dimmer>
               </Segment>
 
-              <Label attached="bottom right" color="blue" size="small">
+              <Label attached='bottom right' color='blue' size='small'>
                 For Educational Purposes Only
               </Label>
             </div>
@@ -127,15 +127,15 @@ class App extends React.Component {
 
         {this.state.responseLoaded && (
           <div>
-            <Container textAlign="center" style={{ minHeight: '560px' }}>
+            <Container textAlign='center' style={{ minHeight: '560px' }}>
               <Divider horizontal>
-                <Icon name="question circle outline" />
+                <Icon name='question circle outline' />
                 &nbsp; People Also Asked
               </Divider>
 
-              <Header textAlign="left">
-                <Icon name="search" />
-                <Header.Content className="uppercase_header">
+              <Header textAlign='left'>
+                <Icon name='search' />
+                <Header.Content className='uppercase_header'>
                   You Searched: "{this.state.searchTerm}"
                 </Header.Content>
               </Header>

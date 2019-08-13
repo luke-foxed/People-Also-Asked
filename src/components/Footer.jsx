@@ -6,7 +6,8 @@ import {
   Grid,
   Modal,
   Header,
-  Button
+  Button,
+  Popup
 } from 'semantic-ui-react';
 
 class Footer extends React.Component {
@@ -23,64 +24,88 @@ class Footer extends React.Component {
 
   render() {
     return (
-      <Container className="footer">
+      <Container className='footer'>
         <Grid columns={1}>
-          <Grid.Column verticalAlign="middle">
-            <Icon
-              className="footer_icon"
-              name="code branch"
-              size="large"
+          <Grid.Column verticalAlign='middle'>
+            <Popup
               inverted
-              onClick={() => {
-                window.open(
-                  'https://github.com/Foxyf76/People-also-asked',
-                  '_blank'
-                );
-              }}
+              content='Source Code'
+              trigger={
+                <Icon
+                  className='footer_icon'
+                  name='code branch'
+                  size='large'
+                  inverted
+                  onClick={() => {
+                    window.open(
+                      'https://github.com/Foxyf76/People-also-asked',
+                      '_blank'
+                    );
+                  }}
+                />
+              }
             />
 
-            <Icon
-              className="footer_icon"
-              name="github"
-              size="large"
+            <Popup
               inverted
-              onClick={() => {
-                window.open('https://github.com/Foxyf76/', '_blank');
-              }}
+              content='Follow on GitHub'
+              trigger={
+                <Icon
+                  className='footer_icon'
+                  name='github'
+                  size='large'
+                  inverted
+                  onClick={() => {
+                    window.open('https://github.com/Foxyf76/', '_blank');
+                  }}
+                />
+              }
             />
 
-            <Icon
-              className="footer_icon"
-              name="globe"
-              size="large"
+            <Popup
               inverted
-              onClick={() => {
-                window.open('http://distilledsch.ie/', '_blank');
-              }}
+              content='DistilledSCH Website'
+              trigger={
+                <Icon
+                  className='footer_icon'
+                  name='globe'
+                  size='large'
+                  inverted
+                  onClick={() => {
+                    window.open('http://distilledsch.ie/', '_blank');
+                  }}
+                />
+              }
             />
 
             <Modal
-              size="small"
+              size='small'
               basic
               trigger={
-                <Icon
-                  className="footer_icon"
-                  name="plus"
-                  size="large"
+                <Popup
                   inverted
-                  onClick={() => {
-                    this.setState({
-                      modalOpen: true
-                    });
-                  }}
+                  content='More Info'
+                  trigger={
+                    <Icon
+                      className='footer_icon'
+                      name='info circle'
+                      size='large'
+                      inverted
+                      onClick={() => {
+                        this.setState({
+                          modalOpen: true
+                        });
+                      }}
+                    />
+                  }
                 />
               }
               open={this.state.modalOpen}
             >
               <Header
-                size="large"
-                icon="user"
-                content="SEO Scraper - Created by Luke Fox"
+                size='large'
+                icon='user'
+                content='SEO Scraper - Created by Luke Fox'
               />
               <Modal.Content>
                 <p>
@@ -105,8 +130,8 @@ class Footer extends React.Component {
                 </p>
               </Modal.Content>
               <Modal.Actions>
-                <Button color="green" onClick={this.handleClose} inverted>
-                  <Icon name="checkmark" /> Got it
+                <Button color='green' onClick={this.handleClose} inverted>
+                  <Icon name='checkmark' /> Got it
                 </Button>
               </Modal.Actions>
             </Modal>
