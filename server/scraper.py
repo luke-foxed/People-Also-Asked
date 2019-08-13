@@ -12,22 +12,22 @@ from selenium.webdriver.common.by import By
 
 """FOR RUNNING ON HEROKU"""
 
-# chrome_options = Options()
-# chrome_options.headless = True
-# chrome_options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
-# chrome_options.add_argument('--no-sandbox')
-# chrome_options.add_argument('--disable-gpu')
-# browser = webdriver.Chrome(executable_path=os.environ.get(
-#     'CHROMEDRIVER'), chrome_options=chrome_options)
+chrome_options = Options()
+chrome_options.headless = True
+chrome_options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+chrome_options.add_argument('--no-sandbox')
+chrome_options.add_argument('--disable-gpu')
+browser = webdriver.Chrome(executable_path=os.environ.get(
+    'CHROMEDRIVER'), chrome_options=chrome_options)
 
 """FOR RUNNING LOCALLY"""
 
-chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument("--headless")
-chrome_options.add_argument("--window-size=1366x768")
-chrome_options.add_argument("--no-sandbox")
-browser = webdriver.Chrome(
-    ChromeDriverManager().install(), chrome_options=chrome_options)
+# chrome_options = webdriver.ChromeOptions()
+# chrome_options.add_argument("--headless")
+# chrome_options.add_argument("--window-size=1366x768")
+# chrome_options.add_argument("--no-sandbox")
+# browser = webdriver.Chrome(
+#     ChromeDriverManager().install(), chrome_options=chrome_options)
 
 scraper_data = {
     "group1": {
