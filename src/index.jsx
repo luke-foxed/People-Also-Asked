@@ -50,7 +50,6 @@ class App extends React.Component {
       });
     } else {
       return axios.get('/scrape/' + searchTerm).then(res => {
-        console.log(res.data);
         this.setState({
           response: res.data,
           buttonDisabled: false,

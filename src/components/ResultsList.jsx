@@ -20,26 +20,26 @@ class ResultsList extends React.Component {
     }
 
     this.state = {
-      questions: questionState
+      questionIsActive: questionState
     };
   }
 
   changeActive(index) {
-    var questionsArray = this.state.questions;
+    var questionStateArray = this.state.questionIsActive;
 
-    if (questionsArray[index].isActive == false) {
-      questionsArray[index].isActive = true;
+    if (questionStateArray[index].isActive == false) {
+      questionStateArray[index].isActive = true;
     } else {
-      questionsArray[index].isActive = false;
+      questionStateArray[index].isActive = false;
     }
 
-    this.setState({ questions: questionsArray });
+    this.setState({ questionIsActive: questionStateArray });
   }
 
   render() {
     const { questions } = this.props;
 
-    if (questions.length > 0) {
+    if (questions[0] !== undefined) {
       return (
         <div>
           <List>
@@ -82,13 +82,12 @@ class ResultsList extends React.Component {
                   </List.Content>
 
                   <List.List>
-                    {this.state.questions.length > 0}
                     {question.children.map((child, childIndex) => {
                       return (
                         <Segment
                           padded
                           style={{
-                            display: this.state.questions[index].isActive
+                            display: this.state.questionIsActive[index].isActive
                               ? 'block'
                               : 'none'
                           }}
