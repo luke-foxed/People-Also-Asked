@@ -82,7 +82,7 @@ def start_scraper(search_term, depth):
 
     div_counter = 1
 
-    browser.get('https://www.google.com/search?q=' + search_term)
+    browser.get('https://www.google.ie/search?q=' + search_term)
 
     try:
         WebDriverWait(browser, 10).until(ec.visibility_of_element_located(
