@@ -125,8 +125,8 @@ class Footer extends React.Component {
 
                 <p>
                   Also, this app uses caching to save your search terms so the
-                  results they will load straight away if the search term has
-                  been used before!
+                  results will load straight away if the search term has been
+                  used before!
                 </p>
               </Modal.Content>
               <Modal.Actions>
