@@ -1,14 +1,13 @@
 import time
-import sys
-import json
 import re
 import os
+from urllib.parse import urlparse
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
+# from webdriver_manager.chrome import ChromeDriverManager
 
 """FOR RUNNING ON HEROKU"""
 
@@ -62,7 +61,7 @@ def populate_latter(search_term):
     for i in range(1, 2):
         for j in range(len(scraper_data["group%s" % i]["questions"])):
             search_term = scraper_data["group%s" % i]["questions"][j]['search']
-            start_scraper(search_term, i+1)
+            start_scraper(search_term, i + 1)
 
 
 def setup(search_term):
@@ -87,7 +86,7 @@ def start_scraper(search_term, depth):
     try:
         WebDriverWait(browser, 10).until(ec.visibility_of_element_located(
             (By.CLASS_NAME, "related-question-pair")))
-    except:
+    except EnvironmentError:
         pass
 
     questions = browser.find_elements_by_class_name('related-question-pair')
@@ -100,7 +99,8 @@ def start_scraper(search_term, depth):
         time.sleep(0.2)
 
         more = browser.find_element_by_xpath(
-            "//div[%s]/g-accordion-expander[1]/div[2]/div[1]/div[1]/div[1]" % div_counter).text
+            "//div[%s]/g-accordion-expander[1]/div[2]/div[1]/div[1]/div[1]"
+            % div_counter).text
 
         more = more.replace('\n', ' ')
 
@@ -111,7 +111,13 @@ def start_scraper(search_term, depth):
             article_header = article.text
             article_url = article.find_element_by_xpath(
                 '..').get_attribute('href')
-        except:
+
+            website_parse = urlparse(article_url)
+            website = '{uri.scheme}://{uri.netloc}/'.format(uri=website_parse)
+
+            more = more + '\n %s' % website
+
+        except EnvironmentError:
             article_header = 'No Artical Found!'
             article_url = ''
 
