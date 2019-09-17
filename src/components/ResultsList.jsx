@@ -59,7 +59,8 @@ class ResultsList extends React.Component {
                       <Popup
                         inverted
                         wide='very'
-                        content={question.article_header}
+                        header={question.article_header}
+                        content={question.article_domain}
                         trigger={
                           <Button
                             icon='external'
@@ -73,8 +74,7 @@ class ResultsList extends React.Component {
                       <Button.Or />
                       <Button
                         onClick={() => this.changeActive(index)}
-                        color='blue'
-                      >
+                        color='blue'>
                         <Icon name='chevron down' />
                         See Related
                       </Button>
@@ -90,8 +90,7 @@ class ResultsList extends React.Component {
                             display: this.state.questionIsActive[index].isActive
                               ? 'block'
                               : 'none'
-                          }}
-                        >
+                          }}>
                           <List.Item>
                             <List.Content>
                               <List.Header className='uppercase_header' as='h4'>
@@ -104,7 +103,8 @@ class ResultsList extends React.Component {
                               <Popup
                                 inverted
                                 wide='very'
-                                content={child.article_header}
+                                header={child.article_header}
+                                content={child.article_domain}
                                 trigger={
                                   <Button
                                     style={{ marginTop: '25px' }}

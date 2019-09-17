@@ -100,8 +100,7 @@ class Footer extends React.Component {
                   }
                 />
               }
-              open={this.state.modalOpen}
-            >
+              open={this.state.modalOpen}>
               <Header
                 size='large'
                 icon='user'
@@ -128,6 +127,20 @@ class Footer extends React.Component {
                   results will load straight away if the search term has been
                   used before!
                 </p>
+
+                <h2>
+                  Changelog(17/09/19):
+                  <ul style={{ fontSize: '14px' }}>
+                    <li>
+                      Added website name on 'Continue Reading' hover (won't
+                      appear on cached searches, cache must be cleared)
+                    </li>
+                    <li>
+                      Fixed error handling where null searches would cause the
+                      site to crash
+                    </li>
+                  </ul>
+                </h2>
               </Modal.Content>
               <Modal.Actions>
                 <Button color='green' onClick={this.handleClose} inverted>

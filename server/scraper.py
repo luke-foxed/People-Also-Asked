@@ -3,11 +3,13 @@ import re
 import os
 from urllib.parse import urlparse
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
-# from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.chrome import ChromeDriverManager
 
 """FOR RUNNING ON HEROKU"""
 
@@ -38,13 +40,14 @@ scraper_data = {
 }
 
 
-def construct_data(search, more, url, header, parent):
+def construct_data(search, more, url, header, domain, parent):
 
     data_constructor = {
         "search": search,
         "more": more,
         "article_url": url,
         "article_header": header,
+        "article_domain": domain,
         "parent": parent,
         "children": []
     }
@@ -86,8 +89,9 @@ def start_scraper(search_term, depth):
     try:
         WebDriverWait(browser, 10).until(ec.visibility_of_element_located(
             (By.CLASS_NAME, "related-question-pair")))
-    except EnvironmentError:
-        pass
+
+    except TimeoutException as err:
+        return err
 
     questions = browser.find_elements_by_class_name('related-question-pair')
 
@@ -113,16 +117,17 @@ def start_scraper(search_term, depth):
                 '..').get_attribute('href')
 
             website_parse = urlparse(article_url)
-            website = '{uri.scheme}://{uri.netloc}/'.format(uri=website_parse)
+            domain = '{uri.scheme}://{uri.netloc}/'.format(uri=website_parse)
 
-            more = more + '\n %s' % website
+        except NoSuchElementException as err:
 
-        except EnvironmentError:
             article_header = 'No Artical Found!'
             article_url = ''
 
+            return err
+
         data = construct_data(question, more, article_url,
-                              article_header, parent)
+                              article_header, domain, parent)
 
         scraper_data["group%s" % depth]["questions"].append(data)
 
